@@ -1,0 +1,45 @@
+@import "variables";
+
+.node {
+  width: 10px;
+  height: 10px;
+  border-left: 1px solid #d3d3d3;
+
+  &:last-of-type {
+    border-right: 1px solid #d3d3d3;
+  }
+  cursor: pointer;
+
+  &.isWall {
+    animation: wallAnimation 200ms linear forwards;
+  }
+
+  &.isStart {
+    background: green;
+  }
+
+  &.isTarget {
+    background: red;
+  }
+
+  &.visited {
+    background: cyan;
+  }
+
+  &:hover {
+    background: $main-dark;
+  }
+}
+
+@keyframes wallAnimation {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    background: $main-light-blue;
+  }
+  100% {
+    transform: scale(1);
+    background: $main-dark;
+  }
+}

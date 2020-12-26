@@ -1,0 +1,11 @@
+@import "variables";
+
+.grid {
+  &__wrapper {
+    width: 100%;
+    height: calc(100% - 7vh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
