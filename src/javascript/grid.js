@@ -1,9 +1,10 @@
 import Node from "./node.js";
+import { isRunning } from "./index.js";
 
 export var grid = [];
 
-const ROWS = 20;
-const COLS = 40;
+export const ROWS = 20;
+export const COLS = 40;
 
 export const START_NODE_LOCATION = [10, 5];
 export const TARGET_NODE_LOCATION = [10, 35];
@@ -22,6 +23,7 @@ const mouseEnter = (row, col, cell) => {
 
 const createWall = (row, col, cell) => {
   if (
+    !isRunning &&
     grid[row][col]["isStart"] === false &&
     grid[row][col]["isTarget"] === false
   ) {
@@ -29,18 +31,6 @@ const createWall = (row, col, cell) => {
     if (grid[row][col]["isWall"]) cell.classList.add("isWall");
     else cell.classList.remove("isWall");
   }
-};
-
-export const compareArray = (arrayA, arrayB) => {
-  if (arrayA.length !== arrayB.length) {
-    return false;
-  }
-
-  for (let i = 0; i < arrayA.length; i++) {
-    if (arrayA[i] !== arrayB[i]) return false;
-  }
-
-  return true;
 };
 
 // if (document.querySelector("#body")) {
@@ -116,56 +106,7 @@ export const setGrid = (newGrid) => {
   grid = newGrid;
 };
 
-export const visualizeBreathFirstSearch = (startNodeLocation) => {
-  // const queue = new Queue();
-  const queue = [];
-  const visitiedArray = [];
-  // queue.push(startNodeLocation);
-
-  queue.push(startNodeLocation);
-
-  if (!grid[startNodeLocation[0]][startNodeLocation[1]]["isTarget"]) {
-    grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
-
-    while (queue.length > 0) {
-      const firstLocation = queue.shift();
-
-      if (grid[firstLocation[0]][firstLocation[1]]["isTarget"]) {
-        const backTrackArray = breathFirstSearchBackTrack(
-          grid[firstLocation[0]][firstLocation[1]]["parentNodeLocation"]
-        );
-        return {
-          visitiedArray,
-          backTrackArray,
-        };
-      }
-
-      var edges = adjacentEdges(firstLocation);
-
-      edges.forEach((edge) => {
-        if (
-          edge[0] >= 0 &&
-          edge[0] <= ROWS - 1 &&
-          edge[1] >= 0 &&
-          edge[1] <= COLS - 1
-        ) {
-          if (!grid[edge[0]][edge[1]]["visited"]) {
-            grid[edge[0]][edge[1]]["visited"] = true;
-            grid[edge[0]][edge[1]]["parentNodeLocation"] = firstLocation;
-            if (!grid[edge[0]][edge[1]]["isWall"]) {
-              queue.push(edge);
-              visitiedArray.push(edge);
-            }
-          }
-        }
-      });
-    }
-  }
-
-  return visitiedArray;
-};
-
-const adjacentEdges = (locations) => {
+export const adjacentEdges = (locations) => {
   var adjacentEdgesLocations = [];
   adjacentEdgesLocations.push([locations[0] - 1, locations[1]]);
   adjacentEdgesLocations.push([locations[0] + 1, locations[1]]);
@@ -173,24 +114,6 @@ const adjacentEdges = (locations) => {
   adjacentEdgesLocations.push([locations[0], locations[1] + 1]);
 
   return adjacentEdgesLocations;
-};
-
-const breathFirstSearchBackTrack = (firstLocation) => {
-  var backTrackArray = [];
-  backTrackArray.push(firstLocation);
-  var currentLocation = firstLocation;
-  var currentNode = grid[firstLocation[0]][firstLocation[1]];
-
-  while (!compareArray(currentLocation, START_NODE_LOCATION)) {
-    backTrackArray.push(currentNode["parentNodeLocation"]);
-    currentNode =
-      grid[currentNode["parentNodeLocation"][0]][
-        currentNode["parentNodeLocation"][1]
-      ];
-    currentLocation = currentNode["parentNodeLocation"];
-  }
-
-  return backTrackArray.reverse();
 };
 
 window.addEventListener("mousedown", () => {
