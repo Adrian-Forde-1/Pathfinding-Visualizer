@@ -23,11 +23,12 @@
   }
 
   &.back-track {
+    // animation: backTrackAnimation 500ms ease-in-out forwards;
     background: yellow;
   }
 
   &.visited {
-    background: cyan;
+    animation: visitedAnimation 500ms ease-in-out forwards;
   }
 
   &:hover {
@@ -45,5 +46,25 @@
   100% {
     transform: scale(1);
     background: $main-dark;
+  }
+}
+
+@keyframes visitedAnimation {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    background: lime;
+  }
+  100% {
+    clip-path: circle(100% at 50% 50%);
+    background: cyan;
+  }
+}
+
+@keyframes backTrackAnimation {
+  0% {
+    background: cyan;
+  }
+  100% {
+    background: yellow;
   }
 }
