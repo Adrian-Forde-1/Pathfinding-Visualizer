@@ -1,24 +1,12 @@
 import Node from "./node.js";
 
-window.addEventListener("mousedown", () => {
-  mouseDown = true;
-});
-
-window.addEventListener("mouseup", () => {
-  mouseDown = false;
-});
-
-window.addEventListener("drag", (e) => {
-  e.preventDefault();
-});
-
 export var grid = [];
 
-const ROWS = 40;
-const COLS = 80;
+const ROWS = 20;
+const COLS = 40;
 
-export const START_NODE_LOCATION = [20, 5];
-export const TARGET_NODE_LOCATION = [20, 75];
+export const START_NODE_LOCATION = [10, 5];
+export const TARGET_NODE_LOCATION = [10, 35];
 
 var mouseDown = false;
 
@@ -43,24 +31,36 @@ const createWall = (row, col, cell) => {
   }
 };
 
-if (document.querySelector("#body")) {
-  const body = document.querySelector("#body");
-}
+export const compareArray = (arrayA, arrayB) => {
+  if (arrayA.length !== arrayB.length) {
+    return false;
+  }
 
-if (document.querySelector("button")) {
-  document.querySelector("button").addEventListener("click", () => {
-    if (document.querySelector("#body")) {
-      const body = document.querySelector("#body");
+  for (let i = 0; i < arrayA.length; i++) {
+    if (arrayA[i] !== arrayB[i]) return false;
+  }
 
-      body.childNodes.forEach((child) => {
-        console.log(child);
-        // body.removeChild(child);
-      });
+  return true;
+};
 
-      // createGrid();
-    }
-  });
-}
+// if (document.querySelector("#body")) {
+//   const body = document.querySelector("#body");
+// }
+
+// if (document.querySelector("button")) {
+//   document.querySelector("button").addEventListener("click", () => {
+//     if (document.querySelector("#body")) {
+//       const body = document.querySelector("#body");
+
+//       body.childNodes.forEach((child) => {
+//         console.log(child);
+//         // body.removeChild(child);
+//       });
+
+//       // createGrid();
+//     }
+//   });
+// }
 
 const renderGrid = () => {
   for (let i = 0; i < ROWS; i++) {
@@ -107,6 +107,8 @@ export const createGrid = () => {
     }
     grid.push(row);
   }
+  grid[START_NODE_LOCATION[0]][START_NODE_LOCATION[1]]["isStart"] = true;
+  grid[TARGET_NODE_LOCATION[0]][TARGET_NODE_LOCATION[1]]["isTarget"] = true;
   renderGrid();
 };
 
@@ -128,8 +130,15 @@ export const visualizeBreathFirstSearch = (startNodeLocation) => {
     while (queue.length > 0) {
       const firstLocation = queue.shift();
 
-      if (grid[firstLocation[0]][firstLocation[1]]["isTarget"])
-        return visitiedArray;
+      if (grid[firstLocation[0]][firstLocation[1]]["isTarget"]) {
+        const backTrackArray = breathFirstSearchBackTrack(
+          grid[firstLocation[0]][firstLocation[1]]["parentNodeLocation"]
+        );
+        return {
+          visitiedArray,
+          backTrackArray,
+        };
+      }
 
       var edges = adjacentEdges(firstLocation);
 
@@ -142,8 +151,11 @@ export const visualizeBreathFirstSearch = (startNodeLocation) => {
         ) {
           if (!grid[edge[0]][edge[1]]["visited"]) {
             grid[edge[0]][edge[1]]["visited"] = true;
-            queue.push(edge);
-            visitiedArray.push(edge);
+            grid[edge[0]][edge[1]]["parentNodeLocation"] = firstLocation;
+            if (!grid[edge[0]][edge[1]]["isWall"]) {
+              queue.push(edge);
+              visitiedArray.push(edge);
+            }
           }
         }
       });
@@ -162,3 +174,33 @@ const adjacentEdges = (locations) => {
 
   return adjacentEdgesLocations;
 };
+
+const breathFirstSearchBackTrack = (firstLocation) => {
+  var backTrackArray = [];
+  backTrackArray.push(firstLocation);
+  var currentLocation = firstLocation;
+  var currentNode = grid[firstLocation[0]][firstLocation[1]];
+
+  while (!compareArray(currentLocation, START_NODE_LOCATION)) {
+    backTrackArray.push(currentNode["parentNodeLocation"]);
+    currentNode =
+      grid[currentNode["parentNodeLocation"][0]][
+        currentNode["parentNodeLocation"][1]
+      ];
+    currentLocation = currentNode["parentNodeLocation"];
+  }
+
+  return backTrackArray.reverse();
+};
+
+window.addEventListener("mousedown", () => {
+  mouseDown = true;
+});
+
+window.addEventListener("mouseup", () => {
+  mouseDown = false;
+});
+
+// window.addEventListener("drag", (e) => {
+//   e.preventDefault();
+// });

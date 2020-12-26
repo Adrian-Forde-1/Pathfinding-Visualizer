@@ -1,8 +1,8 @@
 @import "variables";
 
 .node {
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   border-left: 1px solid #d3d3d3;
 
   &:last-of-type {
@@ -15,11 +15,15 @@
   }
 
   &.isStart {
-    background: green;
+    background: green !important;
   }
 
   &.isTarget {
-    background: red;
+    background: red !important;
+  }
+
+  &.back-track {
+    background: yellow;
   }
 
   &.visited {

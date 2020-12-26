@@ -3,5 +3,6 @@ export default class Node {
   isStart = false;
   isTarget = false;
   visited = false;
+  parentNodeLocation = [];
   distance = "Infinity";
 }
