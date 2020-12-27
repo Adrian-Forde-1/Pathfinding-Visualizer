@@ -20,7 +20,7 @@
   }
 
   &.isTarget {
-    background: red !important;
+    animation: targetNode 200ms linear forwards !important;
   }
 
   &.back-track {
@@ -79,5 +79,16 @@
   100% {
     transform: scale(1);
     background: green;
+  }
+}
+
+@keyframes targetNode {
+  0% {
+    transform: scale(0);
+    background: red;
+  }
+  100% {
+    transform: scale(1);
+    background: red;
   }
 }

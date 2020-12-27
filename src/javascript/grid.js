@@ -21,6 +21,7 @@ const grid = gridObj.getGrid();
 
 var mouseDown = false;
 var draggingStartNode = false;
+var draggingTargetNode = false;
 
 gridObj.createGrid();
 
@@ -99,6 +100,7 @@ export const renderGrid = () => {
           console.log(gridObj.getStartNodeLocation());
           console.log(grid);
           if (grid[i][x]["isStart"]) draggingStartNode = true;
+          else if (grid[i][x]["isTarget"]) draggingTargetNode = true;
           else {
             mouseDown = true;
             manageWall(
@@ -111,6 +113,7 @@ export const renderGrid = () => {
 
         cell.addEventListener("mouseup", () => {
           draggingStartNode = false;
+          draggingTargetNode = false;
         });
 
         cell.addEventListener("mouseenter", () => {
@@ -145,6 +148,40 @@ export const renderGrid = () => {
                 .querySelector(`#row-${i}col-${x}`)
                 .classList.add("isStart");
             }
+          } else if (draggingTargetNode) {
+            //Remove Start Node Color
+            var targetNodeLocation = gridObj.getTargetNodeLocation();
+
+            if (
+              document.querySelector(
+                `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+              ) &&
+              document
+                .querySelector(
+                  `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+                )
+                .classList.contains("isTarget")
+            )
+              document
+                .querySelector(
+                  `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+                )
+                .classList.remove("isTarget");
+
+            grid[targetNodeLocation[0]][targetNodeLocation[1]][
+              "isTarget"
+            ] = false;
+
+            //Set New Target Node Location
+            gridObj.setTargetNodeLocation([i, x]);
+            grid[i][x]["isTarget"] = true;
+
+            //Set Target Node Color To New Node
+            if (document.querySelector(`#row-${i}col-${x}`)) {
+              document
+                .querySelector(`#row-${i}col-${x}`)
+                .classList.add("isTarget");
+            }
           } else {
             mouseEnter(
               cell.getAttribute("row"),
@@ -155,7 +192,7 @@ export const renderGrid = () => {
         });
 
         cell.addEventListener("click", () => {
-          if (!draggingStartNode) {
+          if (!draggingStartNode && !draggingTargetNode) {
             manageWall(
               cell.getAttribute("row"),
               cell.getAttribute("col"),

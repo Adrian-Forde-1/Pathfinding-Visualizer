@@ -26,13 +26,16 @@ export class Grid {
     return this.startNodeLocation;
   };
 
+  getTargetNodeLocation = () => {
+    return this.targetNodeLocation;
+  };
+
   setStartNodeLocation = (startNodeLocation) => {
-    console.log("Set Start Node Location Called", startNodeLocation);
     this.startNodeLocation = startNodeLocation;
   };
 
-  setTargetNodeLocation = () => {
-    this.targetNodeLocation = this.targetNodeLocation;
+  setTargetNodeLocation = (targetNodeLocation) => {
+    this.targetNodeLocation = targetNodeLocation;
   };
 
   createGrid = () => {

@@ -21,7 +21,8 @@
 }
 
 .node.isTarget {
-  background: red !important;
+  -webkit-animation: targetNode 200ms linear forwards !important;
+          animation: targetNode 200ms linear forwards !important;
 }
 
 .node.back-track {
@@ -136,6 +137,32 @@
     -webkit-transform: scale(1);
             transform: scale(1);
     background: green;
+  }
+}
+
+@-webkit-keyframes targetNode {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    background: red;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background: red;
+  }
+}
+
+@keyframes targetNode {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    background: red;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background: red;
   }
 }
 
