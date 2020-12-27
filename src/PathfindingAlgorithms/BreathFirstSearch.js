@@ -1,12 +1,18 @@
-import { ROWS, COLS, adjacentEdges } from "../javascript/grid.js";
+// import { ROWS, COLS, adjacentEdges } from "../javascript/grid.js";
 import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
+import { Grid } from "../javascript/Grid/grid.js";
 
 // import { Queue } from "../DataStructures/queue";
 
-export const visualizeBreathFirstSearch = (startNodeLocation, grid) => {
+export const visualizeBreathFirstSearch = (gridObj) => {
   // const queue = new Queue();
+  // console.log(startNodeLocation);
+  // console.log(grid[10][35]);
   const queue = [];
   const visitedArray = [];
+
+  var startNodeLocation = gridObj.getStartNodeLocation();
+  var grid = gridObj.getGrid();
   // queue.push(startNodeLocation);
 
   queue.push(startNodeLocation);
@@ -29,14 +35,13 @@ export const visualizeBreathFirstSearch = (startNodeLocation, grid) => {
         };
       }
 
-      var edges = adjacentEdges(firstLocation);
-
+      var edges = gridObj.adjacentEdges(firstLocation);
       edges.forEach((edge) => {
         if (
           edge[0] >= 0 &&
-          edge[0] <= ROWS - 1 &&
+          edge[0] <= gridObj.getRows() - 1 &&
           edge[1] >= 0 &&
-          edge[1] <= COLS - 1
+          edge[1] <= gridObj.getCols() - 1
         ) {
           if (!grid[edge[0]][edge[1]]["visited"]) {
             grid[edge[0]][edge[1]]["visited"] = true;
@@ -51,5 +56,6 @@ export const visualizeBreathFirstSearch = (startNodeLocation, grid) => {
     }
   }
 
+  console.log(visitedArray);
   return visitedArray;
 };

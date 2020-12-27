@@ -10,8 +10,38 @@
 }
 
 .nav-list {
+  height: 100%;
   list-style: none;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &__item {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    button {
+      width: 100%;
+      height: 100%;
+      padding: 0px 25px;
+      color: #fff;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    select {
+      height: 100%;
+      padding: 0px 25px;
+      cursor: pointer;
+      background: $main-dark;
+      border: none;
+      color: #fff;
+    }
+  }
 }

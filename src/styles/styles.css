@@ -2,6 +2,7 @@
   width: 20px;
   height: 20px;
   border-left: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
   cursor: pointer;
 }
 
@@ -15,7 +16,8 @@
 }
 
 .node.isStart {
-  background: green !important;
+  -webkit-animation: startNode 200ms linear forwards !important;
+          animation: startNode 200ms linear forwards !important;
 }
 
 .node.isTarget {
@@ -27,8 +29,8 @@
 }
 
 .node.visited {
-  -webkit-animation: visitedAnimation 500ms ease-in-out forwards;
-          animation: visitedAnimation 500ms ease-in-out forwards;
+  -webkit-animation: visitedAnimation 1000ms ease-out forwards;
+          animation: visitedAnimation 1000ms ease-out forwards;
 }
 
 .node:hover {
@@ -47,6 +49,7 @@
     -webkit-transform: scale(1);
             transform: scale(1);
     background: #2d2e40;
+    border-color: #2d2e40;
   }
 }
 
@@ -62,6 +65,7 @@
     -webkit-transform: scale(1);
             transform: scale(1);
     background: #2d2e40;
+    border-color: #2d2e40;
   }
 }
 
@@ -109,6 +113,32 @@
   }
 }
 
+@-webkit-keyframes startNode {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    background: green;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background: green;
+  }
+}
+
+@keyframes startNode {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    background: green;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    background: green;
+  }
+}
+
 .navbar {
   width: 100%;
   height: 7vh;
@@ -125,6 +155,7 @@
 }
 
 .nav-list {
+  height: 100%;
   list-style: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -135,6 +166,42 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.nav-list__item {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.nav-list__item:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.nav-list__item button {
+  width: 100%;
+  height: 100%;
+  padding: 0px 25px;
+  color: #fff;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.nav-list__item select {
+  height: 100%;
+  padding: 0px 25px;
+  cursor: pointer;
+  background: #2d2e40;
+  border: none;
+  color: #fff;
 }
 
 .grid__wrapper {
@@ -201,7 +268,6 @@ body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  border-bottom: 1px solid #d3d3d3;
 }
 
 .row:first-of-type {

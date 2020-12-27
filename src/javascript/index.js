@@ -1,11 +1,12 @@
-import { createGrid, grid, START_NODE_LOCATION } from "./grid.js";
+import { renderGrid, gridObj } from "./grid.js";
 import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
-import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
+// import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
 
 export var isRunning = false;
 var currentAlgorithm;
 
-createGrid();
+// createGrid();
+renderGrid();
 
 //Adding event listener to button so that it can start a visualization
 if (document.querySelector("#visualize-btn")) {
@@ -17,8 +18,7 @@ if (document.querySelector("#visualize-btn")) {
     }
     if (currentAlgorithm === "Breath First Search") {
       const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
-        START_NODE_LOCATION,
-        grid
+        gridObj
       );
       visualizeAlgorithm(visitedArray, backTrackArray);
     } else if (currentAlgorithm === "Depth First Search") {

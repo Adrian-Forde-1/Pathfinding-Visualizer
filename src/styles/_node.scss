@@ -4,6 +4,7 @@
   width: 20px;
   height: 20px;
   border-left: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
 
   &:last-of-type {
     border-right: 1px solid #d3d3d3;
@@ -15,7 +16,7 @@
   }
 
   &.isStart {
-    background: green !important;
+    animation: startNode 200ms linear forwards !important;
   }
 
   &.isTarget {
@@ -28,7 +29,7 @@
   }
 
   &.visited {
-    animation: visitedAnimation 500ms ease-in-out forwards;
+    animation: visitedAnimation 1000ms ease-out forwards;
   }
 
   &:hover {
@@ -46,6 +47,7 @@
   100% {
     transform: scale(1);
     background: $main-dark;
+    border-color: $main-dark;
   }
 }
 
@@ -66,5 +68,16 @@
   }
   100% {
     background: yellow;
+  }
+}
+
+@keyframes startNode {
+  0% {
+    transform: scale(0);
+    background: green;
+  }
+  100% {
+    transform: scale(1);
+    background: green;
   }
 }
