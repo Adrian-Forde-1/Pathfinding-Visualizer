@@ -1,33 +1,49 @@
 import { createGrid, grid, START_NODE_LOCATION } from "./grid.js";
 import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
+import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
 
 export var isRunning = false;
+var currentAlgorithm;
 
 createGrid();
 
+//Adding event listener to button so that it can start a visualization
 if (document.querySelector("#visualize-btn")) {
   document.querySelector("#visualize-btn").addEventListener("click", () => {
-    visualizeAlgorithm();
+    if (document.querySelector("#current-algorithm")) {
+      const algorithmSelector = document.querySelector("#current-algorithm");
+      currentAlgorithm =
+        algorithmSelector.options[algorithmSelector.selectedIndex].text;
+    }
+    if (currentAlgorithm === "Breath First Search") {
+      const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
+        START_NODE_LOCATION,
+        grid
+      );
+      visualizeAlgorithm(visitedArray, backTrackArray);
+    } else if (currentAlgorithm === "Depth First Search") {
+      var { visitedArray, backTrackArray } = visualizeDepthFirstSearch(
+        START_NODE_LOCATION,
+        grid
+      );
+      visualizeAlgorithm(visitedArray, backTrackArray);
+    }
   });
 }
 
-const visualizeAlgorithm = () => {
+//Visualizes the algorithm
+const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   isRunning = true;
-  const { visitiedArray, backTrackArray } = visualizeBreathFirstSearch(
-    START_NODE_LOCATION
-  );
 
-  for (let i = 0; i < visitiedArray.length; i++) {
+  for (let i = 0; i < visitedNodes.length; i++) {
     setTimeout(() => {
       if (
         document.querySelector(
-          `#row-${visitiedArray[i][0]}col-${visitiedArray[i][1]}`
+          `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
         )
       ) {
         document
-          .querySelector(
-            `#row-${visitiedArray[i][0]}col-${visitiedArray[i][1]}`
-          )
+          .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
           .classList.add("visited");
       }
     }, 10 * i);
@@ -56,5 +72,11 @@ const visualizeAlgorithm = () => {
       }, 10 * i);
     }
     isRunning = false;
-  }, 10 * visitiedArray.length);
+  }, 10 * visitedNodes.length);
 };
+
+if (document.querySelector(".grid__wrapper")) {
+  document.querySelector(".grid__wrapper").addEventListener("drag", (e) => {
+    e.preventDefault();
+  });
+}

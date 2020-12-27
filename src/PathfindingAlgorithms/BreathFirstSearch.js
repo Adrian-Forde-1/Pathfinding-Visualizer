@@ -1,19 +1,12 @@
-import {
-  grid,
-  setGrid,
-  ROWS,
-  COLS,
-  adjacentEdges,
-} from "../javascript/grid.js";
-
-import { compareArray } from "../javascript/helpers/util.js";
+import { ROWS, COLS, adjacentEdges } from "../javascript/grid.js";
+import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
 
 // import { Queue } from "../DataStructures/queue";
 
-export const visualizeBreathFirstSearch = (startNodeLocation) => {
+export const visualizeBreathFirstSearch = (startNodeLocation, grid) => {
   // const queue = new Queue();
   const queue = [];
-  const visitiedArray = [];
+  const visitedArray = [];
   // queue.push(startNodeLocation);
 
   queue.push(startNodeLocation);
@@ -25,12 +18,13 @@ export const visualizeBreathFirstSearch = (startNodeLocation) => {
       const firstLocation = queue.shift();
 
       if (grid[firstLocation[0]][firstLocation[1]]["isTarget"]) {
-        const backTrackArray = breathFirstSearchBackTrack(
+        const backTrackArray = pathfindingAlgorithmBackTrack(
           grid[firstLocation[0]][firstLocation[1]]["parentNodeLocation"],
-          startNodeLocation
+          startNodeLocation,
+          grid
         );
         return {
-          visitiedArray,
+          visitedArray,
           backTrackArray,
         };
       }
@@ -49,7 +43,7 @@ export const visualizeBreathFirstSearch = (startNodeLocation) => {
             grid[edge[0]][edge[1]]["parentNodeLocation"] = firstLocation;
             if (!grid[edge[0]][edge[1]]["isWall"]) {
               queue.push(edge);
-              visitiedArray.push(edge);
+              visitedArray.push(edge);
             }
           }
         }
@@ -57,23 +51,5 @@ export const visualizeBreathFirstSearch = (startNodeLocation) => {
     }
   }
 
-  return visitiedArray;
-};
-
-const breathFirstSearchBackTrack = (firstLocation, startNodeLocation) => {
-  var backTrackArray = [];
-  backTrackArray.push(firstLocation);
-  var currentLocation = firstLocation;
-  var currentNode = grid[firstLocation[0]][firstLocation[1]];
-
-  while (!compareArray(currentLocation, startNodeLocation)) {
-    backTrackArray.push(currentNode["parentNodeLocation"]);
-    currentNode =
-      grid[currentNode["parentNodeLocation"][0]][
-        currentNode["parentNodeLocation"][1]
-      ];
-    currentLocation = currentNode["parentNodeLocation"];
-  }
-
-  return backTrackArray.reverse();
+  return visitedArray;
 };
