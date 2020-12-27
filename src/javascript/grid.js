@@ -1,5 +1,5 @@
 import Node from "./node.js";
-import { isRunning } from "./index.js";
+import { isRunning, isFinished, visualize } from "./index.js";
 import { Grid } from "./Grid/grid.js";
 
 // export var grid = [];
@@ -47,25 +47,6 @@ const createWall = (row, col, cell) => {
   }
 };
 
-// if (document.querySelector("#body")) {
-//   const body = document.querySelector("#body");
-// }
-
-// if (document.querySelector("button")) {
-//   document.querySelector("button").addEventListener("click", () => {
-//     if (document.querySelector("#body")) {
-//       const body = document.querySelector("#body");
-
-//       body.childNodes.forEach((child) => {
-//         console.log(child);
-//         // body.removeChild(child);
-//       });
-
-//       // createGrid();
-//     }
-//   });
-// }
-
 export const renderGrid = () => {
   const body = document.querySelector("#body");
   if (body) {
@@ -95,10 +76,6 @@ export const renderGrid = () => {
         else if (grid[i][x]["isTarget"]) cell.classList.add("isTarget");
 
         cell.addEventListener("mousedown", () => {
-          console.log("Mouse Down");
-          console.log(i, x);
-          console.log(gridObj.getStartNodeLocation());
-          console.log(grid);
           if (grid[i][x]["isStart"]) draggingStartNode = true;
           else if (grid[i][x]["isTarget"]) draggingTargetNode = true;
           else {
@@ -117,7 +94,7 @@ export const renderGrid = () => {
         });
 
         cell.addEventListener("mouseenter", () => {
-          if (draggingStartNode) {
+          if (draggingStartNode && !isRunning) {
             //Remove Start Node Color
             var startNodeLocation = gridObj.getStartNodeLocation();
 
@@ -148,7 +125,8 @@ export const renderGrid = () => {
                 .querySelector(`#row-${i}col-${x}`)
                 .classList.add("isStart");
             }
-          } else if (draggingTargetNode) {
+            if (isFinished) visualize();
+          } else if (draggingTargetNode && !isRunning) {
             //Remove Start Node Color
             var targetNodeLocation = gridObj.getTargetNodeLocation();
 
@@ -182,6 +160,8 @@ export const renderGrid = () => {
                 .querySelector(`#row-${i}col-${x}`)
                 .classList.add("isTarget");
             }
+
+            if (isFinished) visualize();
           } else {
             mouseEnter(
               cell.getAttribute("row"),
@@ -212,43 +192,6 @@ export const renderGrid = () => {
   }
 };
 
-// export const createGrid = () => {
-//   grid = [];
-//   for (let i = 0; i < ROWS; i++) {
-//     var row = [];
-//     for (let x = 0; x < COLS; x++) {
-//       row.push(new Node());
-//     }
-//     grid.push(row);
-//   }
-//   grid[START_NODE_LOCATION[0]][START_NODE_LOCATION[1]]["isStart"] = true;
-//   grid[TARGET_NODE_LOCATION[0]][TARGET_NODE_LOCATION[1]]["isTarget"] = true;
-//   renderGrid();
-// };
-
-// export const setGrid = (newGrid) => {
-//   grid = newGrid;
-// };
-
-// export const adjacentEdges = (locations) => {
-//   var adjacentEdgesLocations = [];
-//   adjacentEdgesLocations.push([locations[0] - 1, locations[1]]);
-//   adjacentEdgesLocations.push([locations[0] + 1, locations[1]]);
-//   adjacentEdgesLocations.push([locations[0], locations[1] - 1]);
-//   adjacentEdgesLocations.push([locations[0], locations[1] + 1]);
-
-//   return adjacentEdgesLocations;
-// };
-
-// window.addEventListener("mousedown", () => {
-//   mouseDown = true;
-// });
-
 document.addEventListener("mouseup", () => {
-  console.log("Mouse up");
   mouseDown = false;
 });
-
-// window.addEventListener("drag", (e) => {
-//   e.preventDefault();
-// });

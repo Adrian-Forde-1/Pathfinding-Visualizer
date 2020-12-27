@@ -10,8 +10,6 @@ export const pathfindingAlgorithmBackTrack = (
   var currentLocation = backTrackStartLocation;
   var currentNode = grid[backTrackStartLocation[0]][backTrackStartLocation[1]];
 
-  console.log("Start Node Location: ", startNodeLocation);
-
   while (!compareArray(currentLocation, startNodeLocation)) {
     if (currentNode["parentNodeLocation"].length > 0) {
       backTrackArray.push(currentNode["parentNodeLocation"]);

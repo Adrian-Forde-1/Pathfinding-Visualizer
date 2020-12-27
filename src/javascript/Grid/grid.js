@@ -54,6 +54,13 @@ export class Grid {
     // grid[TARGET_NODE_LOCATION[0]][TARGET_NODE_LOCATION[1]]["isTarget"] = true;
   };
 
+  clearVisited = () => {
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let x = 0; x < this.grid[i].length; x++)
+        this.grid[i][x]["visited"] = false;
+    }
+  };
+
   adjacentEdges = (locations) => {
     var adjacentEdgesLocations = [];
     adjacentEdgesLocations.push([locations[0] - 1, locations[1]]);

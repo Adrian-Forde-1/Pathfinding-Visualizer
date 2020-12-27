@@ -13,6 +13,12 @@ export const visualizeBreathFirstSearch = (gridObj) => {
 
   var startNodeLocation = gridObj.getStartNodeLocation();
   var grid = gridObj.getGrid();
+  gridObj.clearVisited();
+
+  // console.log("visualize called");
+  // console.log("Start Node Location", startNodeLocation);
+  // console.log("Grid", grid);
+
   // queue.push(startNodeLocation);
 
   queue.push(startNodeLocation);

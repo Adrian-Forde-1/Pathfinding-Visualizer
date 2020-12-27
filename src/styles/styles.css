@@ -16,13 +16,11 @@
 }
 
 .node.isStart {
-  -webkit-animation: startNode 200ms linear forwards !important;
-          animation: startNode 200ms linear forwards !important;
+  background: green !important;
 }
 
 .node.isTarget {
-  -webkit-animation: targetNode 200ms linear forwards !important;
-          animation: targetNode 200ms linear forwards !important;
+  background: red !important;
 }
 
 .node.back-track {
@@ -30,8 +28,7 @@
 }
 
 .node.visited {
-  -webkit-animation: visitedAnimation 1000ms ease-out forwards;
-          animation: visitedAnimation 1000ms ease-out forwards;
+  background: cyan;
 }
 
 .node:hover {
