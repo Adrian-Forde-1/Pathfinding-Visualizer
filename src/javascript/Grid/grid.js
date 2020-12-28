@@ -8,6 +8,7 @@ export class Grid {
     this.startNodeLocation = startNodeLocation;
     this.targetNodeLocation = targetNodeLocation;
     this.grid = [];
+    this.initialGrid = [];
   }
 
   getRows = () => {
@@ -41,14 +42,18 @@ export class Grid {
   createGrid = () => {
     for (let i = 0; i < this.rows; i++) {
       var row = [];
+      var initialGridRow = [];
       for (let x = 0; x < this.cols; x++) {
         if (compareArray(this.startNodeLocation, new Array(i, x)))
           row.push(new UnweightedNode(true));
         else if (compareArray(this.targetNodeLocation, new Array(i, x)))
           row.push(new UnweightedNode(false, true));
         else row.push(new UnweightedNode());
+
+        initialGridRow.push(new UnweightedNode());
       }
       this.grid.push(row);
+      this.initialGrid.push(initialGridRow);
     }
     // grid[START_NODE_LOCATION[0]][START_NODE_LOCATION[1]]["isStart"] = true;
     // grid[TARGET_NODE_LOCATION[0]][TARGET_NODE_LOCATION[1]]["isTarget"] = true;
