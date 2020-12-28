@@ -9,6 +9,7 @@ var currentAlgorithm;
 // createGrid();
 
 export const visualize = () => {
+  console.log("Visualize Called:", isFinished);
   var nodes = document.querySelectorAll(".node");
 
   nodes.forEach((node) => {
@@ -22,6 +23,7 @@ export const visualize = () => {
     currentAlgorithm =
       algorithmSelector.options[algorithmSelector.selectedIndex].text;
   }
+
   if (currentAlgorithm === "Breath First Search") {
     const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
       gridObj
@@ -49,9 +51,21 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
           `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
         )
       ) {
+        if (
+          document
+            .querySelector(
+              `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
+            )
+            .classList.contains("visited")
+        )
+          document
+            .querySelector(
+              `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
+            )
+            .classList.remove("visited");
         document
           .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
-          .classList.add("visited");
+          .classList.add("visited-anim");
       }
     }, 10 * i);
   }
@@ -68,7 +82,7 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
             .querySelector(
               `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
             )
-            .classList.remove("visited");
+            .classList.remove("visited-anim");
 
           document
             .querySelector(
@@ -90,6 +104,14 @@ const renderPath = (visitedNodes, backTrackArray) => {
         `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
       )
     ) {
+      if (
+        document
+          .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
+          .classList.contains("visited-anim")
+      )
+        document
+          .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
+          .classList.remove("visited-anim");
       document
         .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
         .classList.add("visited");
@@ -127,5 +149,8 @@ if (document.querySelector(".grid__wrapper")) {
 
 //Adding event listener to button so that it can start a visualization
 if (document.querySelector("#visualize-btn")) {
-  document.querySelector("#visualize-btn").addEventListener("click", visualize);
+  document.querySelector("#visualize-btn").addEventListener("click", () => {
+    isFinished = false;
+    visualize();
+  });
 }

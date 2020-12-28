@@ -44,6 +44,8 @@ const createWall = (row, col, cell) => {
     grid[row][col]["isWall"] = !grid[row][col]["isWall"];
     if (grid[row][col]["isWall"]) cell.classList.add("isWall");
     else cell.classList.remove("isWall");
+
+    if (grid[row][col]["isWall"]) visualize();
   }
 };
 

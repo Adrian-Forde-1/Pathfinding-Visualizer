@@ -12,7 +12,7 @@
   cursor: pointer;
 
   &.isWall {
-    animation: wallAnimation 200ms linear forwards;
+    animation: wallAnimation 200ms linear forwards !important;
   }
 
   &.isStart {
@@ -31,8 +31,11 @@
   }
 
   &.visited {
-    // animation: visitedAnimation 1000ms ease-out forwards;
     background: cyan;
+  }
+
+  &.visited-anim {
+    animation: visitedAnimation 1000ms ease-out forwards;
   }
 
   &:hover {

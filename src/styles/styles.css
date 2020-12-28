@@ -11,8 +11,8 @@
 }
 
 .node.isWall {
-  -webkit-animation: wallAnimation 200ms linear forwards;
-          animation: wallAnimation 200ms linear forwards;
+  -webkit-animation: wallAnimation 200ms linear forwards !important;
+          animation: wallAnimation 200ms linear forwards !important;
 }
 
 .node.isStart {
@@ -29,6 +29,11 @@
 
 .node.visited {
   background: cyan;
+}
+
+.node.visited-anim {
+  -webkit-animation: visitedAnimation 1000ms ease-out forwards;
+          animation: visitedAnimation 1000ms ease-out forwards;
 }
 
 .node:hover {
