@@ -1,6 +1,6 @@
 .node {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-left: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
   cursor: pointer;
@@ -11,8 +11,12 @@
 }
 
 .node.isWall {
-  -webkit-animation: wallAnimation 200ms linear forwards !important;
-          animation: wallAnimation 200ms linear forwards !important;
+  -webkit-animation: wallAnimation 500ms ease-out forwards !important;
+          animation: wallAnimation 500ms ease-out forwards !important;
+}
+
+.node.isWeigt {
+  background: purple !important;
 }
 
 .node.isStart {
@@ -47,6 +51,8 @@
   }
   50% {
     background: #55d99b;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
   }
   100% {
     -webkit-transform: scale(1);
@@ -63,6 +69,8 @@
   }
   50% {
     background: #55d99b;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
   }
   100% {
     -webkit-transform: scale(1);

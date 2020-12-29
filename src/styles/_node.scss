@@ -1,8 +1,8 @@
 @import "variables";
 
 .node {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-left: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
 
@@ -12,7 +12,15 @@
   cursor: pointer;
 
   &.isWall {
-    animation: wallAnimation 200ms linear forwards !important;
+    // background: $main-dark !important;
+    animation: wallAnimation 500ms ease-out forwards !important;
+  }
+  // &.isWal-anim {
+  //   animation: wallAnimation 500ms ease-out forwards !important;
+  // }
+
+  &.isWeigt {
+    background: purple !important;
   }
 
   &.isStart {
@@ -49,6 +57,7 @@
   }
   50% {
     background: $main-light-blue;
+    transform: scale(1.2);
   }
   100% {
     transform: scale(1);

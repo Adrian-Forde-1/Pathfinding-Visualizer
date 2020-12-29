@@ -1,19 +1,24 @@
-export class UnweightedNode {
+export class WeightedNode {
+  isWall = false;
+  isStart = false;
+  isTarget = false;
+  visited = false;
+  distance = 9999999999;
+  parentNodeLocation = [];
+
   constructor(
     isStart = false,
     isTarget = false,
     isWall = false,
     visited = false,
     parentNodeLocation = [],
-    row,
-    col
+    distance = 9999999999
   ) {
     this.isStart = isStart;
     this.isTarget = isTarget;
     this.isWall = isWall;
     this.visited = visited;
     this.parentNodeLocation = parentNodeLocation;
-    this.row = row;
-    this.col = col;
+    this.distance = distance;
   }
 }

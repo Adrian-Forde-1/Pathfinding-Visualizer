@@ -1,6 +1,5 @@
 // import { ROWS, COLS, adjacentEdges } from "../javascript/grid.js";
 import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
-import { Grid } from "../javascript/Grid/grid.js";
 import { compareArray } from "../javascript/helpers/util.js";
 
 // import { Queue } from "../DataStructures/queue";

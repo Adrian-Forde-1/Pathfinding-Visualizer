@@ -1,16 +1,16 @@
 import Node from "./node.js";
-import { isRunning, isFinished, visualize } from "./index.js";
+import { isRunning, isFinished, visualize, algorithmType } from "./index.js";
 import { Grid } from "./Grid/grid.js";
 
 // export var grid = [];
 
-export const ROWS = 20;
-export const COLS = 40;
+export const ROWS = 10;
+export const COLS = 20;
 
 export const START_NODE_LOCATION = [0, 0];
-export const TARGET_NODE_LOCATION = [19, 39];
+export const TARGET_NODE_LOCATION = [9, 19];
 
-export const gridObj = new Grid(
+export var gridObj = new Grid(
   ROWS,
   COLS,
   START_NODE_LOCATION,
@@ -23,7 +23,7 @@ var mouseDown = false;
 var draggingStartNode = false;
 var draggingTargetNode = false;
 
-gridObj.createGrid();
+gridObj.createGrid("Unweighted");
 
 const manageWall = (row, col, cell) => {
   createWall(row, col, cell);
@@ -45,153 +45,163 @@ const createWall = (row, col, cell) => {
     if (grid[row][col]["isWall"]) cell.classList.add("isWall");
     else cell.classList.remove("isWall");
 
-    if (grid[row][col]["isWall"]) visualize();
+    if (grid[row][col]["isWall"] && isFinished) visualize();
   }
 };
 
-export const renderGrid = () => {
+export const clearGrid = () => {
+  gridObj = new Grid(ROWS, COLS, START_NODE_LOCATION, TARGET_NODE_LOCATION);
+  const gridWrapper = document.querySelector(".grid__wrapper");
   const body = document.querySelector("#body");
-  if (body) {
-    body.addEventListener("drag", (e) => {
-      e.preventDefault();
-    });
 
-    for (let i = 0; i < grid.length; i++) {
-      var row = document.createElement("div");
+  gridWrapper.removeChild(body);
+  renderGrid();
+};
 
-      row.addEventListener("drag", (e) => {
-        e.preventDefault();
-      });
+export const renderGrid = () => {
+  const gridWrapper = document.querySelector(".grid__wrapper");
+  const body = document.createElement("div");
 
-      row.classList.add("row");
+  body.setAttribute("draggable", false);
+  body.setAttribute("id", "body");
 
-      for (let x = 0; x < grid[i].length; x++) {
-        let cell = document.createElement("div");
+  gridWrapper.appendChild(body);
 
-        cell.setAttribute("row", i);
-        cell.setAttribute("col", x);
-        cell.setAttribute("id", `row-${i}col-${x}`);
+  body.addEventListener("drag", (e) => {
+    e.preventDefault();
+  });
 
-        cell.classList.add("node");
+  for (let i = 0; i < grid.length; i++) {
+    var row = document.createElement("div");
+    row.setAttribute("draggable", false);
+    row.classList.add("row");
 
-        if (grid[i][x]["isStart"]) cell.classList.add("isStart");
-        else if (grid[i][x]["isTarget"]) cell.classList.add("isTarget");
+    addEventListenersToGridRow(row);
 
-        cell.addEventListener("mousedown", () => {
-          if (grid[i][x]["isStart"]) draggingStartNode = true;
-          else if (grid[i][x]["isTarget"]) draggingTargetNode = true;
-          else {
-            mouseDown = true;
-            manageWall(
-              cell.getAttribute("row"),
-              cell.getAttribute("col"),
-              cell
-            );
-          }
-        });
+    for (let x = 0; x < grid[i].length; x++) {
+      let cell = document.createElement("div");
 
-        cell.addEventListener("mouseup", () => {
-          draggingStartNode = false;
-          draggingTargetNode = false;
-        });
+      cell.setAttribute("row", i);
+      cell.setAttribute("col", x);
+      cell.setAttribute("draggable", false);
+      cell.setAttribute("id", `row-${i}col-${x}`);
 
-        cell.addEventListener("mouseenter", () => {
-          if (draggingStartNode && !isRunning) {
-            //Remove Start Node Color
-            var startNodeLocation = gridObj.getStartNodeLocation();
+      cell.classList.add("node");
 
-            if (
-              document.querySelector(
-                `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-              ) &&
-              document
-                .querySelector(
-                  `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-                )
-                .classList.contains("isStart")
-            )
-              document
-                .querySelector(
-                  `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-                )
-                .classList.remove("isStart");
-            grid[startNodeLocation[0]][startNodeLocation[1]]["isStart"] = false;
+      if (grid[i][x]["isStart"]) cell.classList.add("isStart");
+      else if (grid[i][x]["isTarget"]) cell.classList.add("isTarget");
 
-            //Set New Start Node Location
-            gridObj.setStartNodeLocation([i, x]);
-            grid[i][x]["isStart"] = true;
+      addEventListenersToGridCell(cell, i, x);
 
-            //Set Start Node Color To New Node
-            if (document.querySelector(`#row-${i}col-${x}`)) {
-              document
-                .querySelector(`#row-${i}col-${x}`)
-                .classList.add("isStart");
-            }
-            if (isFinished) visualize();
-          } else if (draggingTargetNode && !isRunning) {
-            //Remove Start Node Color
-            var targetNodeLocation = gridObj.getTargetNodeLocation();
+      row.appendChild(cell);
+    }
 
-            if (
-              document.querySelector(
-                `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-              ) &&
-              document
-                .querySelector(
-                  `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-                )
-                .classList.contains("isTarget")
-            )
-              document
-                .querySelector(
-                  `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-                )
-                .classList.remove("isTarget");
+    body.appendChild(row);
+  }
+};
 
-            grid[targetNodeLocation[0]][targetNodeLocation[1]][
-              "isTarget"
-            ] = false;
+const addEventListenersToGridRow = (row) => {
+  row.addEventListener("drag", (e) => {
+    e.preventDefault();
+  });
+  row.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+  });
+};
 
-            //Set New Target Node Location
-            gridObj.setTargetNodeLocation([i, x]);
-            grid[i][x]["isTarget"] = true;
+const addEventListenersToGridCell = (cell, i, x) => {
+  cell.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    if (grid[i][x]["isStart"]) draggingStartNode = true;
+    else if (grid[i][x]["isTarget"]) draggingTargetNode = true;
+    else {
+      mouseDown = true;
+      manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
+    }
+  });
 
-            //Set Target Node Color To New Node
-            if (document.querySelector(`#row-${i}col-${x}`)) {
-              document
-                .querySelector(`#row-${i}col-${x}`)
-                .classList.add("isTarget");
-            }
+  cell.addEventListener("mouseup", () => {
+    draggingStartNode = false;
+    draggingTargetNode = false;
+  });
 
-            if (isFinished) visualize();
-          } else {
-            mouseEnter(
-              cell.getAttribute("row"),
-              cell.getAttribute("col"),
-              cell
-            );
-          }
-        });
+  cell.addEventListener("mouseenter", () => {
+    if (draggingStartNode && !isRunning) {
+      //Remove Start Node Color
+      var startNodeLocation = gridObj.getStartNodeLocation();
 
-        cell.addEventListener("click", () => {
-          if (!draggingStartNode && !draggingTargetNode) {
-            manageWall(
-              cell.getAttribute("row"),
-              cell.getAttribute("col"),
-              cell
-            );
-          }
-        });
+      if (
+        document.querySelector(
+          `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
+        ) &&
+        document
+          .querySelector(
+            `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
+          )
+          .classList.contains("isStart")
+      )
+        document
+          .querySelector(
+            `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
+          )
+          .classList.remove("isStart");
+      grid[startNodeLocation[0]][startNodeLocation[1]]["isStart"] = false;
 
-        cell.addEventListener("drag", (e) => {
-          e.preventDefault();
-        });
-        row.appendChild(cell);
+      //Set New Start Node Location
+      gridObj.setStartNodeLocation([i, x]);
+      grid[i][x]["isStart"] = true;
+
+      //Set Start Node Color To New Node
+      if (document.querySelector(`#row-${i}col-${x}`)) {
+        document.querySelector(`#row-${i}col-${x}`).classList.add("isStart");
+      }
+      if (isFinished) visualize();
+    } else if (draggingTargetNode && !isRunning) {
+      //Remove Start Node Color
+      var targetNodeLocation = gridObj.getTargetNodeLocation();
+
+      if (
+        document.querySelector(
+          `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+        ) &&
+        document
+          .querySelector(
+            `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+          )
+          .classList.contains("isTarget")
+      )
+        document
+          .querySelector(
+            `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
+          )
+          .classList.remove("isTarget");
+
+      grid[targetNodeLocation[0]][targetNodeLocation[1]]["isTarget"] = false;
+
+      //Set New Target Node Location
+      gridObj.setTargetNodeLocation([i, x]);
+      grid[i][x]["isTarget"] = true;
+
+      //Set Target Node Color To New Node
+      if (document.querySelector(`#row-${i}col-${x}`)) {
+        document.querySelector(`#row-${i}col-${x}`).classList.add("isTarget");
       }
 
-      body.appendChild(row);
+      if (isFinished) visualize();
+    } else {
+      mouseEnter(cell.getAttribute("row"), cell.getAttribute("col"), cell);
     }
-  }
+  });
+
+  cell.addEventListener("click", () => {
+    if (!draggingStartNode && !draggingTargetNode) {
+      manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
+    }
+  });
+
+  cell.addEventListener("drag", (e) => {
+    e.preventDefault();
+  });
 };
 
 document.addEventListener("mouseup", () => {
