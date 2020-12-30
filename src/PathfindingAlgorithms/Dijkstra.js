@@ -48,24 +48,23 @@ export const visualizeDijkstra = (gridObj) => {
         edge[1] <= gridObj.getCols() - 1
       ) {
         if (!grid[edge[0]][edge[1]]["visited"]) {
-          if (grid[edge[0]][edge[1]]["isWall"]) return;
-          console.log(currentNode);
-          grid[edge[0]][edge[1]]["distance"] = currentNode["distance"] + 1;
-          grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
+          if (grid[edge[0]][edge[1]]["isWall"]) {
+            console.log("Is Wall");
+            let nodeIndex = sortedNodes.findIndex((node) =>
+              compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
+            );
+            grid[edge[0]][edge[1]]["visited"] = true;
+            sortedNodes.splice(nodeIndex, 1);
+            return;
+          } else {
+            grid[edge[0]][edge[1]]["distance"] = currentNode["distance"] + 1;
+            grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
 
-          // sortedNodes.forEach((node) => {
-          //   console.log(node["location"]);
-          // });
-
-          var nodeIndex = sortedNodes.findIndex((node) =>
-            compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
-          );
-
-          // console.log("Node Index:", nodeIndex);
-          // console.log("Edge Location:", grid[edge[0]][edge[1]]["location"]);
-          // console.log();
-
-          sortedNodes[nodeIndex]["distance"] = currentNode["distance"] + 1;
+            let nodeIndex = sortedNodes.findIndex((node) =>
+              compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
+            );
+            sortedNodes[nodeIndex]["distance"] = currentNode["distance"] + 1;
+          }
         }
       }
     });
