@@ -12,7 +12,8 @@ export class WeightedNode {
     isWall = false,
     visited = false,
     parentNodeLocation = [],
-    distance = 9999999999
+    distance = 9999999999,
+    location = []
   ) {
     this.isStart = isStart;
     this.isTarget = isTarget;
@@ -20,5 +21,10 @@ export class WeightedNode {
     this.visited = visited;
     this.parentNodeLocation = parentNodeLocation;
     this.distance = distance;
+    this.location = location;
   }
+
+  getLocation = () => {
+    return this.location;
+  };
 }

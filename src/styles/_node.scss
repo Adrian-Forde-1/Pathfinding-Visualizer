@@ -3,11 +3,11 @@
 .node {
   width: 25px;
   height: 25px;
-  border-left: 1px solid #d3d3d3;
-  border-bottom: 1px solid #d3d3d3;
+  border-left: 1px solid $main-dark;
+  border-bottom: 1px solid $main-dark;
 
   &:last-of-type {
-    border-right: 1px solid #d3d3d3;
+    border-right: 1px solid $main-dark;
   }
   cursor: pointer;
 

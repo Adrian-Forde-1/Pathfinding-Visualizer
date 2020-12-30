@@ -46,71 +46,82 @@ export class Grid {
   };
 
   changeNodeType = (nodeType) => {
-    console.log(nodeType);
+    this.nodes = [];
     for (let i = 0; i < this.rows; i++) {
       for (let x = 0; x < this.cols; x++) {
         if (nodeType === "Unweighted") {
-          if (compareArray(this.startNodeLocation, new Array(i, x)))
-            this.grid[i][x] = new UnweightedNode(
+          if (compareArray(this.startNodeLocation, new Array(i, x))) {
+            let node = new UnweightedNode(
               true,
               false,
               false,
               false,
               [],
-              i,
-              x
+              new Array(i, x)
             );
-          else if (compareArray(this.targetNodeLocation, new Array(i, x)))
-            this.grid[i][x] = new UnweightedNode(
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
+            let node = new UnweightedNode(
               false,
               true,
               false,
               false,
               [],
-              i,
-              x
+              new Array(i, x)
             );
-          else
-            this.grid[i][x] = new UnweightedNode(
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          } else {
+            let node = new UnweightedNode(
               false,
               false,
               false,
               false,
               [],
-              i,
-              x
+              new Array(i, x)
             );
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          }
         } else if (nodeType === "Weighted") {
-          if (compareArray(this.startNodeLocation, new Array(i, x)))
-            this.grid[i][x] = new WeightedNode(
+          if (compareArray(this.startNodeLocation, new Array(i, x))) {
+            let node = new WeightedNode(
               true,
               false,
               false,
               false,
               [],
-              i,
-              x
+              9999999999,
+              new Array(i, x)
             );
-          else if (compareArray(this.targetNodeLocation, new Array(i, x)))
-            this.grid[i][x] = new WeightedNode(
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
+            let node = new WeightedNode(
               false,
               true,
               false,
               false,
               [],
-              i,
-              x
+              9999999999,
+              new Array(i, x)
             );
-          else
-            this.grid[i][x] = new WeightedNode(
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          } else {
+            let node = new WeightedNode(
               false,
               false,
               false,
               false,
               [],
-              i,
-              x
+              9999999999,
+              new Array(i, x)
             );
+            this.grid[i][x] = node;
+            this.nodes.push(node);
+          }
         }
       }
     }
@@ -122,31 +133,87 @@ export class Grid {
       var initialGridRow = [];
       for (let x = 0; x < this.cols; x++) {
         if (nodeType === "Unweighted") {
-          if (compareArray(this.startNodeLocation, new Array(i, x)))
-            row.push(new UnweightedNode(true, false, false, false, [], i, x));
-          else if (compareArray(this.targetNodeLocation, new Array(i, x)))
-            row.push(new UnweightedNode(false, true, false, false, [], i, x));
-          else
-            row.push(new UnweightedNode(false, false, false, false, [], i, x));
+          if (compareArray(this.startNodeLocation, new Array(i, x))) {
+            let node = new UnweightedNode(
+              true,
+              false,
+              false,
+              false,
+              [],
+              new Array(i, x)
+            );
+            row.push(node);
+            this.nodes.push(node);
+          } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
+            let node = new UnweightedNode(
+              false,
+              true,
+              false,
+              false,
+              [],
+              new Array(i, x)
+            );
+            row.push(node);
+            this.nodes.push(node);
+          } else {
+            let node = new UnweightedNode(
+              false,
+              false,
+              false,
+              false,
+              [],
+              new Array(i, x)
+            );
+            row.push(node);
+            this.nodes.push(node);
+          }
 
           initialGridRow.push(new UnweightedNode());
-          this.nodes.push(new UnweightedNode());
         } else if (nodeType === "Weighted") {
-          if (compareArray(this.startNodeLocation, new Array(i, x)))
-            row.push(new Weighted(true, false, false, false, [], i, x));
-          else if (compareArray(this.targetNodeLocation, new Array(i, x)))
-            row.push(new Weighted(false, true, false, false, [], i, x));
-          else row.push(new Weighted(false, false, false, false, [], i, x));
+          if (compareArray(this.startNodeLocation, new Array(i, x))) {
+            let node = new Weighted(
+              true,
+              false,
+              false,
+              false,
+              [],
+              9999999999,
+              new Array(i, x)
+            );
+            row.push();
+            this.nodes.push(node);
+          } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
+            let node = new Weighted(
+              false,
+              true,
+              false,
+              false,
+              [],
+              9999999999,
+              new Array(i, x)
+            );
+            row.push();
+            this.nodes.push(node);
+          } else {
+            let node = new Weighted(
+              false,
+              false,
+              false,
+              false,
+              [],
+              9999999999,
+              new Array(i, x)
+            );
+            row.push();
+            this.nodes.push(node);
+          }
 
           initialGridRow.push(new Weighted());
-          this.nodes.push(new Weighted());
         }
       }
       this.grid.push(row);
       this.initialGrid.push(initialGridRow);
     }
-    // grid[START_NODE_LOCATION[0]][START_NODE_LOCATION[1]]["isStart"] = true;
-    // grid[TARGET_NODE_LOCATION[0]][TARGET_NODE_LOCATION[1]]["isTarget"] = true;
   };
 
   clearVisited = () => {

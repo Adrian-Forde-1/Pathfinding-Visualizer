@@ -1,16 +1,18 @@
-import { gridObj } from "../javascript/grid.js";
+import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
+import { compareArray } from "../javascript/helpers/util.js";
 
 export const visualizeDijkstra = (gridObj) => {
   var visitedArray = [];
   var backTrackArray = [];
+  var sortedNodes;
   var grid = gridObj.getGrid();
-  var gridNodes = gridObj.getNodes();
   var unvisitedNodes = gridObj.getGrid();
   var startNodeLocation = gridObj.getStartNodeLocation();
   var targetNodeLocation = gridObj.getTargetNodeLocation();
   var currentNodeLocation = startNodeLocation;
+  var currentNode;
 
-  // console.log(gridNodes);
+  console.log("Start Node Location:", startNodeLocation);
 
   if (
     !startNodeLocation ||
@@ -25,28 +27,70 @@ export const visualizeDijkstra = (gridObj) => {
     };
   }
 
-  grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
-  grid[startNodeLocation[0]][startNodeLocation[1]]["distance"] = 0;
+  grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
+  sortedNodes = gridObj.getNodes();
+  while (!compareArray(currentNodeLocation, targetNodeLocation)) {
+    sortedNodes = sortNodesByDistance(sortedNodes);
+    currentNode = sortedNodes.shift();
+    currentNodeLocation = currentNode.getLocation();
+    grid[currentNodeLocation[0]][currentNodeLocation[1]]["visited"] = true;
+    visitedArray.push(currentNodeLocation);
 
-  visitedArray.push(startNodeLocation);
+    // console.log(sortedNodes[0]["distance"]);
 
-  var adjacentEdges = gridObj.adjacentEdges(startNodeLocation);
+    var edges = gridObj.adjacentEdges(currentNodeLocation);
 
-  adjacentEdges.forEach((edge) => {
-    if (
-      edge[0] >= 0 &&
-      edge[0] <= gridObj.getRows() - 1 &&
-      edge[1] >= 0 &&
-      edge[1] <= gridObj.getCols() - 1
-    ) {
-      grid[edge[0]][edge[1]]["distance"] = grid[currentNodeLocation[0]][
-        currentNodeLocation[1]
-      ]["distance"]++;
-    }
-  });
+    edges.forEach((edge) => {
+      if (
+        edge[0] >= 0 &&
+        edge[0] <= gridObj.getRows() - 1 &&
+        edge[1] >= 0 &&
+        edge[1] <= gridObj.getCols() - 1
+      ) {
+        if (!grid[edge[0]][edge[1]]["visited"]) {
+          if (grid[edge[0]][edge[1]]["isWall"]) return;
+          console.log(currentNode);
+          grid[edge[0]][edge[1]]["distance"] = currentNode["distance"] + 1;
+          grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
+
+          // sortedNodes.forEach((node) => {
+          //   console.log(node["location"]);
+          // });
+
+          var nodeIndex = sortedNodes.findIndex((node) =>
+            compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
+          );
+
+          // console.log("Node Index:", nodeIndex);
+          // console.log("Edge Location:", grid[edge[0]][edge[1]]["location"]);
+          // console.log();
+
+          sortedNodes[nodeIndex]["distance"] = currentNode["distance"] + 1;
+        }
+      }
+    });
+  }
+
+  backTrackArray = pathfindingAlgorithmBackTrack(
+    currentNodeLocation,
+    startNodeLocation,
+    grid
+  );
 
   return {
     visitedArray,
     backTrackArray,
   };
+};
+
+var sortNodesByDistance = (nodes) => {
+  var sortedNodes = nodes.sort((a, b) => compare(a, b));
+  return sortedNodes;
+};
+
+const compare = (a, b) => {
+  if (a["distance"] < b["distance"]) return -1;
+  if (a["distance"] > b["distance"]) return 1;
+
+  return 0;
 };

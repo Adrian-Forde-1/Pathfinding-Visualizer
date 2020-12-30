@@ -1,13 +1,13 @@
 .node {
   width: 25px;
   height: 25px;
-  border-left: 1px solid #d3d3d3;
-  border-bottom: 1px solid #d3d3d3;
+  border-left: 1px solid #2d2e40;
+  border-bottom: 1px solid #2d2e40;
   cursor: pointer;
 }
 
 .node:last-of-type {
-  border-right: 1px solid #d3d3d3;
+  border-right: 1px solid #2d2e40;
 }
 
 .node.isWall {
@@ -308,6 +308,6 @@ body {
 }
 
 .row:first-of-type {
-  border-top: 1px solid #d3d3d3;
+  border-top: 1px solid #2d2e40;
 }
 /*# sourceMappingURL=styles.css.map */

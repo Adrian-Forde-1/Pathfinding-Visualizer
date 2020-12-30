@@ -5,15 +5,17 @@ export class UnweightedNode {
     isWall = false,
     visited = false,
     parentNodeLocation = [],
-    row,
-    col
+    location
   ) {
     this.isStart = isStart;
     this.isTarget = isTarget;
     this.isWall = isWall;
     this.visited = visited;
     this.parentNodeLocation = parentNodeLocation;
-    this.row = row;
-    this.col = col;
+    this.location = location;
   }
+
+  getLocation = () => {
+    return this.location;
+  };
 }
