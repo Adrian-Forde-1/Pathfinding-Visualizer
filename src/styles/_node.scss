@@ -11,10 +11,6 @@
   }
   cursor: pointer;
 
-  &.isWall {
-    // background: $main-dark !important;
-    animation: wallAnimation 500ms ease-out forwards !important;
-  }
   // &.isWal-anim {
   //   animation: wallAnimation 500ms ease-out forwards !important;
   // }
@@ -25,21 +21,33 @@
 
   &.isStart {
     // animation: startNode 200ms linear forwards !important;
-    background: green !important;
+    // background: green !important;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' focusable='false' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 16 16'> <g fill='%2355d99b'> <path fill-rule='evenodd' d='M3.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z'/> <path fill-rule='evenodd' d='M3.762 2.558C4.735 1.909 5.348 1.5 6.5 1.5c.653 0 1.139.325 1.495.562l.032.022c.391.26.646.416.973.416c.168 0 .356-.042.587-.126a8.89 8.89 0 0 0 .593-.25c.058-.027.117-.053.18-.08c.57-.255 1.278-.544 2.14-.544a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5c-.638 0-1.18.21-1.734.457l-.159.07c-.22.1-.453.205-.678.287A2.719 2.719 0 0 1 9 9.5c-.653 0-1.139-.325-1.495-.562l-.032-.022c-.391-.26-.646-.416-.973-.416c-.833 0-1.218.246-2.223.916A.5.5 0 0 1 3.5 9V3a.5.5 0 0 1 .223-.416l.04-.026z'/></g></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
   }
 
   &.isTarget {
     // animation: targetNode 200ms linear forwards !important;
-    background: red !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' focusable='false' width='1em' height='1em' preserveAspectRatio='xMidYMid meet' viewBox='0 0 512 512'> <path d='M256 0Q150 0 75 75T0 256t75 181t181 75t181-75t75-181t-75-181T256 0zm0 469q-88 0-150.5-62.5T43 256t62.5-150.5T256 43t150.5 62.5T469 256t-62.5 150.5T256 469zm0-362q-62 0-105.5 43.5T107 256t43.5 105.5T256 405t105.5-43.5T405 256t-43.5-105.5T256 107zm0 256q-45 0-76-31t-31-76t31-76t76-31t76 31t31 76t-31 76t-76 31zm43-107q0 18-12.5 30.5T256 299t-30.5-12.5T213 256t12.5-30.5T256 213t30.5 12.5T299 256z' fill='%23ff0000' /></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    // background: transparent !important;
+  }
+
+  &.isWall {
+    background: $main-dark !important;
+    // border-color: yellow;
+    animation: wallAnimation 500ms ease-out forwards !important;
   }
 
   &.back-track {
-    animation: backTrackAnimation 800ms linear forwards;
-    // background: yellow;
+    // animation: backTrackAnimation 500ms ease-out forwards;
+    background: yellow;
   }
 
   &.visited {
-    background: cyan;
+    background: #0dfcb5;
   }
 
   &.visited-anim {
@@ -73,23 +81,32 @@
 @keyframes visitedAnimation {
   0% {
     clip-path: circle(0% at 50% 50%);
-    background: lime;
+  }
+  20% {
+    background: #000cfa;
+  }
+  40% {
+    background: #0955d9;
+  }
+  60% {
+    background: #00a0f0;
+  }
+  80% {
+    background: #0bd2d9;
   }
   100% {
     clip-path: circle(100% at 50% 50%);
-    background: cyan;
+    background: #0dfcb5;
   }
 }
 
 @keyframes backTrackAnimation {
   0% {
-    // background: cyan;
     transform: scale(0);
   }
   50% {
-    transform: scale(1.2);
     background: yellow;
-    border-color: yellow;
+    transform: scale(1.2);
   }
   100% {
     transform: scale(1);

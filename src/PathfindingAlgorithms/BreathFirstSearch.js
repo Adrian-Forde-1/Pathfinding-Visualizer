@@ -61,9 +61,7 @@ export const visualizeBreathFirstSearch = (gridObj) => {
   var backTrackArray = [];
   if (compareArray(currentNodeLocation, targetNodeLocation)) {
     backTrackArray = pathfindingAlgorithmBackTrack(
-      grid[currentNodeLocation[0]][currentNodeLocation[1]][
-        "parentNodeLocation"
-      ],
+      new Array(currentNodeLocation[0], currentNodeLocation[1]),
       startNodeLocation,
       grid
     );
