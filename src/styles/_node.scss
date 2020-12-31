@@ -49,6 +49,10 @@
   &:hover {
     background: $main-dark;
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
 @keyframes wallAnimation {

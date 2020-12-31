@@ -144,13 +144,9 @@ const addEventListenersToGridCell = (cell, i, x) => {
     else if (grid[i][x]["isTarget"]) draggingTargetNode = true;
     else {
       mouseDown = true;
-      manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
-    }
-  });
 
-  cell.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log(grid[i][x]);
+      manageWall(i, x, cell);
+    }
   });
 
   cell.addEventListener("mouseup", () => {
@@ -158,11 +154,13 @@ const addEventListenersToGridCell = (cell, i, x) => {
     draggingTargetNode = false;
   });
 
-  cell.addEventListener("mouseenter", () => {
+  cell.addEventListener("mousemove", () => {
+    //If the node is the start node and the application isn't running
     if (draggingStartNode && !isRunning) {
-      //Remove Start Node Color
+      //Get start node location
       var startNodeLocation = gridObj.getStartNodeLocation();
 
+      //Remove start node class if the element contains it
       if (
         document.querySelector(
           `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
@@ -178,6 +176,9 @@ const addEventListenersToGridCell = (cell, i, x) => {
             `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
           )
           .classList.remove("isStart");
+
+      //Set the isStart property on the current start node to false so that
+      //it will no longer be the start node
       grid[startNodeLocation[0]][startNodeLocation[1]]["isStart"] = false;
 
       //Set New Start Node Location
@@ -190,9 +191,10 @@ const addEventListenersToGridCell = (cell, i, x) => {
       }
       if (isFinished) visualize();
     } else if (draggingTargetNode && !isRunning) {
-      //Remove Start Node Color
-      var targetNodeLocation = gridObj.getTargetNodeLocation();
+      //If the node is the target node and the application isn't running
+      var targetNodeLocation = gridObj.getTargetNodeLocation(); //Get target node location
 
+      //Remove target node class if the element contains it
       if (
         document.querySelector(
           `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
@@ -209,6 +211,8 @@ const addEventListenersToGridCell = (cell, i, x) => {
           )
           .classList.remove("isTarget");
 
+      //Set the isTarget property on the current start node to false so that
+      //it will no longer be the start node
       grid[targetNodeLocation[0]][targetNodeLocation[1]]["isTarget"] = false;
 
       //Set New Target Node Location
@@ -226,11 +230,11 @@ const addEventListenersToGridCell = (cell, i, x) => {
     }
   });
 
-  cell.addEventListener("click", () => {
-    if (!draggingStartNode && !draggingTargetNode) {
-      manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
-    }
-  });
+  // cell.addEventListener("click", () => {
+  //   if (!draggingStartNode && !draggingTargetNode) {
+  //     manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
+  //   }
+  // });
 
   cell.addEventListener("drag", (e) => {
     e.preventDefault();
