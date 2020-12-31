@@ -12,8 +12,6 @@ export const visualizeDijkstra = (gridObj) => {
   var currentNodeLocation = startNodeLocation;
   var currentNode;
 
-  console.log("Start Node Location:", startNodeLocation);
-
   if (
     !startNodeLocation ||
     !targetNodeLocation ||
@@ -28,10 +26,15 @@ export const visualizeDijkstra = (gridObj) => {
   }
 
   grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
-  sortedNodes = gridObj.getNodes();
+  sortedNodes = [...gridObj.getNodes()];
+  console.log("Dijkstras called");
+  console.log("Sorted Nodes");
+  console.log(sortedNodes);
   while (!compareArray(currentNodeLocation, targetNodeLocation)) {
     sortedNodes = sortNodesByDistance(sortedNodes);
     currentNode = sortedNodes.shift();
+    // console.log(sortedNodes);
+    // console.log(currentNode);
     currentNodeLocation = currentNode.getLocation();
     grid[currentNodeLocation[0]][currentNodeLocation[1]]["visited"] = true;
     visitedArray.push(currentNodeLocation);

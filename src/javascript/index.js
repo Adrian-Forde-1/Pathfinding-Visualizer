@@ -13,6 +13,8 @@ const unweightedAlgrithms = ["Breath First Search", "Depth First Search"];
 export var isRunning = false;
 export var isFinished = false;
 export var algorithmType = algorithmTypes.Unweighted;
+var visitedNodeAnimTime = 15;
+var backTrackNodeAnimTime = 40;
 var currentAlgorithm = "Breath First Search";
 var reset = false;
 
@@ -74,7 +76,7 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
           .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
           .classList.add("visited-anim");
       }
-    }, 10 * i);
+    }, visitedNodeAnimTime * i);
   }
 
   setTimeout(() => {
@@ -97,14 +99,14 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
             )
             .classList.add("back-track");
         }
-      }, 40 * i);
+      }, backTrackNodeAnimTime * i);
     }
-  }, 10 * visitedNodes.length);
+  }, visitedNodeAnimTime * visitedNodes.length);
 
   setTimeout(() => {
     isRunning = false;
     isFinished = true;
-  }, 10 * visitedNodes.length + 40 * backTrackArray.length);
+  }, visitedNodeAnimTime * visitedNodes.length + backTrackNodeAnimTime * backTrackArray.length);
 };
 
 const renderPath = (visitedNodes, backTrackArray) => {
