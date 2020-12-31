@@ -1,13 +1,13 @@
 .node {
   width: 25px;
   height: 25px;
-  border-left: 1px solid #2d2e40;
-  border-bottom: 1px solid #2d2e40;
+  border-left: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
   cursor: pointer;
 }
 
 .node:last-of-type {
-  border-right: 1px solid #2d2e40;
+  border-right: 1px solid #d3d3d3;
 }
 
 .node.isWall {
@@ -28,7 +28,8 @@
 }
 
 .node.back-track {
-  background: yellow;
+  -webkit-animation: backTrackAnimation 800ms linear forwards;
+          animation: backTrackAnimation 800ms linear forwards;
 }
 
 .node.visited {
@@ -108,19 +109,39 @@
 
 @-webkit-keyframes backTrackAnimation {
   0% {
-    background: cyan;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    background: yellow;
+    border-color: yellow;
   }
   100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
     background: yellow;
+    border-color: yellow;
   }
 }
 
 @keyframes backTrackAnimation {
   0% {
-    background: cyan;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    background: yellow;
+    border-color: yellow;
   }
   100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
     background: yellow;
+    border-color: yellow;
   }
 }
 
@@ -308,6 +329,6 @@ body {
 }
 
 .row:first-of-type {
-  border-top: 1px solid #2d2e40;
+  border-top: 1px solid #d3d3d3;
 }
 /*# sourceMappingURL=styles.css.map */

@@ -3,11 +3,11 @@
 .node {
   width: 25px;
   height: 25px;
-  border-left: 1px solid $main-dark;
-  border-bottom: 1px solid $main-dark;
+  border-left: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
 
   &:last-of-type {
-    border-right: 1px solid $main-dark;
+    border-right: 1px solid #d3d3d3;
   }
   cursor: pointer;
 
@@ -34,8 +34,8 @@
   }
 
   &.back-track {
-    // animation: backTrackAnimation 500ms ease-in-out forwards;
-    background: yellow;
+    animation: backTrackAnimation 800ms linear forwards;
+    // background: yellow;
   }
 
   &.visited {
@@ -79,10 +79,18 @@
 
 @keyframes backTrackAnimation {
   0% {
-    background: cyan;
+    // background: cyan;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+    background: yellow;
+    border-color: yellow;
   }
   100% {
+    transform: scale(1);
     background: yellow;
+    border-color: yellow;
   }
 }
 

@@ -56,14 +56,11 @@ export class Grid {
 
   changeNodeType = (nodeType) => {
     this.nodes = [];
-    console.log("Grid Walls");
-    console.log(this.wallLocations);
     for (let i = 0; i < this.rows; i++) {
       for (let x = 0; x < this.cols; x++) {
         let foundWall = this.wallLocations.findIndex((location) =>
           compareArray(location, new Array(i, x))
         );
-        console.log(foundWall);
         let isWall = false;
         if (foundWall > -1) isWall = true;
 

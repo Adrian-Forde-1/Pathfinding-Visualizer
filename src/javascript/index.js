@@ -25,7 +25,6 @@ if (document.querySelector("#clear-grid-btn")) {
 }
 
 export const visualize = () => {
-  console.log("Visualize Called:", isFinished);
   clearVisited();
 
   if (currentAlgorithm === "Breath First Search") {
@@ -162,7 +161,6 @@ if (document.querySelector(".grid__wrapper")) {
 if (document.querySelector("#visualize-btn")) {
   document.querySelector("#visualize-btn").addEventListener("click", () => {
     if (!isRunning) {
-      console.log(gridObj.getGrid());
       isFinished = false;
       visualize();
     }
