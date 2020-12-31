@@ -1,4 +1,4 @@
-import { renderGrid, gridObj, clearGrid } from "./grid.js";
+import { renderGrid, gridObj, clearGrid, clearVisited } from "./grid.js";
 import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
 import { visualizeDijkstra } from "../PathfindingAlgorithms/Dijkstra.js";
 // import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
@@ -13,7 +13,7 @@ const unweightedAlgrithms = ["Breath First Search", "Depth First Search"];
 export var isRunning = false;
 export var isFinished = false;
 export var algorithmType = algorithmTypes.Unweighted;
-var currentAlgorithm;
+var currentAlgorithm = "Breath First Search";
 var reset = false;
 
 // createGrid();
@@ -26,21 +26,7 @@ if (document.querySelector("#clear-grid-btn")) {
 
 export const visualize = () => {
   console.log("Visualize Called:", isFinished);
-  var nodes = document.querySelectorAll(".node");
-
-  nodes.forEach((node) => {
-    if (node.classList.contains("visited")) node.classList.remove("visited");
-    if (node.classList.contains("visited-anim"))
-      node.classList.remove("visited-anim");
-    if (node.classList.contains("back-track"))
-      node.classList.remove("back-track");
-  });
-
-  if (document.querySelector("#current-algorithm")) {
-    const algorithmSelector = document.querySelector("#current-algorithm");
-    currentAlgorithm =
-      algorithmSelector.options[algorithmSelector.selectedIndex].text;
-  }
+  clearVisited();
 
   if (currentAlgorithm === "Breath First Search") {
     const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
@@ -186,29 +172,23 @@ if (document.querySelector("#visualize-btn")) {
 //Adding event listener to algorithm selector so that it can set the algorithm type to either unweighted or weighted
 if (document.querySelector("#current-algorithm")) {
   const algorithmSelector = document.querySelector("#current-algorithm");
-  var previousAlgorithmType = algorithmType;
 
   algorithmSelector.addEventListener("change", () => {
-    let currentAlgorithm =
+    //Keeps track of previous algorithm type
+    let previousAlgorithmType = algorithmType;
+    //Set current algorithm
+    currentAlgorithm =
       algorithmSelector.options[algorithmSelector.selectedIndex].text;
 
-    if (unweightedAlgrithms.includes(currentAlgorithm)) {
+    //Check weather the current algorithm is weighted or unweighted and assigns either
+    //weighted or unweighted to the algorithm type
+    if (unweightedAlgrithms.includes(currentAlgorithm))
       algorithmType = algorithmTypes.Unweighted;
-    } else {
-      algorithmType = algorithmTypes.Weighted;
-    }
+    else algorithmType = algorithmTypes.Weighted;
 
+    //If the previous algorithm type isn't equal to the current algorithm type, clear all the visited nodes
     if (algorithmType !== previousAlgorithmType) {
-      var nodes = document.querySelectorAll(".node");
-
-      nodes.forEach((node) => {
-        if (node.classList.contains("visited"))
-          node.classList.remove("visited");
-        if (node.classList.contains("visited"))
-          node.classList.remove("visited");
-        if (node.classList.contains("back-track"))
-          node.classList.remove("back-track");
-      });
+      clearVisited();
 
       gridObj.changeNodeType(algorithmType);
     }

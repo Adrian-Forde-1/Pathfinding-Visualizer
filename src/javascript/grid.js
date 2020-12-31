@@ -1,6 +1,7 @@
 import Node from "./node.js";
 import { isRunning, isFinished, visualize, algorithmType } from "./index.js";
 import { Grid } from "./Grid/grid.js";
+import { compareArray } from "./helpers/util.js";
 
 // export var grid = [];
 
@@ -41,9 +42,24 @@ const createWall = (row, col, cell) => {
     grid[row][col]["isStart"] === false &&
     grid[row][col]["isTarget"] === false
   ) {
-    grid[row][col]["isWall"] = !grid[row][col]["isWall"];
-    if (grid[row][col]["isWall"]) cell.classList.add("isWall");
-    else cell.classList.remove("isWall");
+    if (!grid[row][col]["isWall"]) {
+      grid[row][col]["isWall"] = true;
+      let wallLocations = gridObj.getWallLocations();
+      wallLocations.push(new Array(row, col));
+      gridObj.setWallLocations(wallLocations);
+      cell.classList.add("isWall");
+    } else {
+      grid[row][col]["isWall"] = false;
+      let wallLocations = gridObj.getWallLocations();
+      let wallIndex = wallLocations.findIndex((location) =>
+        compareArray(location, new Array(row, col))
+      );
+
+      if (wallIndex > -1) wallLocations.splice(wallIndex, 1);
+      gridObj.setWallLocations(wallLocations);
+
+      cell.classList.remove("isWall");
+    }
 
     if (grid[row][col]["isWall"] && isFinished) visualize();
   }
@@ -56,6 +72,18 @@ export const clearGrid = () => {
 
   gridWrapper.removeChild(body);
   renderGrid();
+};
+
+export const clearVisited = () => {
+  var nodes = document.querySelectorAll(".node");
+
+  nodes.forEach((node) => {
+    if (node.classList.contains("visited")) node.classList.remove("visited");
+    if (node.classList.contains("visited-anim"))
+      node.classList.remove("visited-anim");
+    if (node.classList.contains("back-track"))
+      node.classList.remove("back-track");
+  });
 };
 
 export const renderGrid = () => {
@@ -118,6 +146,11 @@ const addEventListenersToGridCell = (cell, i, x) => {
       mouseDown = true;
       manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
     }
+  });
+
+  cell.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log(grid[i][x]);
   });
 
   cell.addEventListener("mouseup", () => {

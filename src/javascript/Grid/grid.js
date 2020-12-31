@@ -11,6 +11,7 @@ export class Grid {
     this.grid = [];
     this.initialGrid = [];
     this.nodes = [];
+    this.wallLocations = [];
   }
 
   getRows = () => {
@@ -23,6 +24,10 @@ export class Grid {
 
   getGrid = () => {
     return this.grid;
+  };
+
+  getWallLocations = () => {
+    return this.wallLocations;
   };
 
   getStartNodeLocation = () => {
@@ -45,16 +50,26 @@ export class Grid {
     this.targetNodeLocation = targetNodeLocation;
   };
 
+  setWallLocations = (wallLocations) => {
+    this.wallLocations = wallLocations;
+  };
+
   changeNodeType = (nodeType) => {
     this.nodes = [];
     for (let i = 0; i < this.rows; i++) {
       for (let x = 0; x < this.cols; x++) {
+        let foundWall = this.wallLocations.findIndex((location) =>
+          compareArray(location, new Array(x, i))
+        );
+        let isWall = false;
+        if (foundWall > -1) isWall = true;
+
         if (nodeType === "Unweighted") {
           if (compareArray(this.startNodeLocation, new Array(i, x))) {
             let node = new UnweightedNode(
               true,
               false,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -65,7 +80,7 @@ export class Grid {
             let node = new UnweightedNode(
               false,
               true,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -76,7 +91,7 @@ export class Grid {
             let node = new UnweightedNode(
               false,
               false,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -89,7 +104,7 @@ export class Grid {
             let node = new WeightedNode(
               true,
               false,
-              false,
+              isWall,
               false,
               [],
               9999999999,
@@ -101,7 +116,7 @@ export class Grid {
             let node = new WeightedNode(
               false,
               true,
-              false,
+              isWall,
               false,
               [],
               9999999999,
@@ -113,7 +128,7 @@ export class Grid {
             let node = new WeightedNode(
               false,
               false,
-              false,
+              isWall,
               false,
               [],
               9999999999,
@@ -132,12 +147,18 @@ export class Grid {
       var row = [];
       var initialGridRow = [];
       for (let x = 0; x < this.cols; x++) {
+        let foundWall = this.wallLocations.findIndex((location) =>
+          compareArray(location, new Array(x, i))
+        );
+        let isWall = false;
+        if (foundWall > -1) isWall = true;
+
         if (nodeType === "Unweighted") {
           if (compareArray(this.startNodeLocation, new Array(i, x))) {
             let node = new UnweightedNode(
               true,
               false,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -148,7 +169,7 @@ export class Grid {
             let node = new UnweightedNode(
               false,
               true,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -159,7 +180,7 @@ export class Grid {
             let node = new UnweightedNode(
               false,
               false,
-              false,
+              isWall,
               false,
               [],
               new Array(i, x)
@@ -174,7 +195,7 @@ export class Grid {
             let node = new Weighted(
               true,
               false,
-              false,
+              isWall,
               false,
               [],
               9999999999,
@@ -186,7 +207,7 @@ export class Grid {
             let node = new Weighted(
               false,
               true,
-              false,
+              isWall,
               false,
               [],
               9999999999,
@@ -198,7 +219,7 @@ export class Grid {
             let node = new Weighted(
               false,
               false,
-              false,
+              isWall,
               false,
               [],
               9999999999,
