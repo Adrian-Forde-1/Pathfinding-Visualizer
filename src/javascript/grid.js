@@ -45,14 +45,14 @@ const createWall = (row, col, cell) => {
     if (!grid[row][col]["isWall"]) {
       grid[row][col]["isWall"] = true;
       let wallLocations = gridObj.getWallLocations();
-      wallLocations.push(new Array(row, col));
+      wallLocations.push(new Array(parseInt(row), parseInt(col)));
       gridObj.setWallLocations(wallLocations);
       cell.classList.add("isWall");
     } else {
       grid[row][col]["isWall"] = false;
       let wallLocations = gridObj.getWallLocations();
       let wallIndex = wallLocations.findIndex((location) =>
-        compareArray(location, new Array(row, col))
+        compareArray(location, new Array(parseInt(row), parseInt(col)))
       );
 
       if (wallIndex > -1) wallLocations.splice(wallIndex, 1);

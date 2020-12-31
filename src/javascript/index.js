@@ -98,14 +98,14 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
             )
             .classList.add("back-track");
         }
-      }, 10 * i);
+      }, 40 * i);
     }
   }, 10 * visitedNodes.length);
 
   setTimeout(() => {
     isRunning = false;
     isFinished = true;
-  }, 10 * visitedNodes.length + 10 * backTrackArray.length);
+  }, 10 * visitedNodes.length + 40 * backTrackArray.length);
 };
 
 const renderPath = (visitedNodes, backTrackArray) => {
