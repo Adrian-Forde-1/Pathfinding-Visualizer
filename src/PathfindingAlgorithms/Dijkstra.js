@@ -2,22 +2,26 @@ import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfinding
 import { compareArray } from "../javascript/helpers/util.js";
 
 export const visualizeDijkstra = (gridObj) => {
-  var visitedArray = [];
-  var backTrackArray = [];
-  var sortedNodes;
-  var grid = gridObj.getGrid();
-  var unvisitedNodes = gridObj.getGrid();
-  var startNodeLocation = gridObj.getStartNodeLocation();
-  var targetNodeLocation = gridObj.getTargetNodeLocation();
-  var currentNodeLocation = startNodeLocation;
-  var currentNode;
+  let visitedArray = new Array();
+  let backTrackArray = [];
+  let sortedNodes;
+  let grid = [...gridObj.getGrid()];
+  let startNodeLocation = [...gridObj.getStartNodeLocation()];
+  let targetNodeLocation = [...gridObj.getTargetNodeLocation()];
+  let currentNodeLocation = [...startNodeLocation];
+  let currentNode;
+
+  gridObj.clearVisited();
 
   if (
     !startNodeLocation ||
     !targetNodeLocation ||
     startNodeLocation === targetNodeLocation
   ) {
-    let visitedArray = [];
+    return false;
+  }
+
+  if (grid[startNodeLocation[0]][startNodeLocation[1]]["isTarget"]) {
     let backTrackArray = [];
     return {
       visitedArray,
@@ -27,21 +31,17 @@ export const visualizeDijkstra = (gridObj) => {
 
   grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
   sortedNodes = [...gridObj.getNodes()];
-  console.log("Dijkstras called");
-  console.log("Sorted Nodes");
-  console.log(sortedNodes);
+
+  grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
+
+  // console.log(gridObj.getWallLocations());
   while (!compareArray(currentNodeLocation, targetNodeLocation)) {
     sortedNodes = sortNodesByDistance(sortedNodes);
     currentNode = sortedNodes.shift();
-    // console.log(sortedNodes);
-    // console.log(currentNode);
     currentNodeLocation = currentNode.getLocation();
     grid[currentNodeLocation[0]][currentNodeLocation[1]]["visited"] = true;
-    visitedArray.push(currentNodeLocation);
 
-    // console.log(sortedNodes[0]["distance"]);
-
-    var edges = gridObj.adjacentEdges(currentNodeLocation);
+    let edges = gridObj.adjacentEdges(currentNodeLocation);
 
     edges.forEach((edge) => {
       if (
@@ -52,7 +52,6 @@ export const visualizeDijkstra = (gridObj) => {
       ) {
         if (!grid[edge[0]][edge[1]]["visited"]) {
           if (grid[edge[0]][edge[1]]["isWall"]) {
-            console.log("Is Wall");
             let nodeIndex = sortedNodes.findIndex((node) =>
               compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
             );
@@ -60,6 +59,7 @@ export const visualizeDijkstra = (gridObj) => {
             sortedNodes.splice(nodeIndex, 1);
             return;
           } else {
+            visitedArray.push(currentNodeLocation);
             grid[edge[0]][edge[1]]["distance"] = currentNode["distance"] + 1;
             grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
 
@@ -79,14 +79,17 @@ export const visualizeDijkstra = (gridObj) => {
     grid
   );
 
+  console.log("Dijkstra called");
+  console.log(visitedArray);
+
   return {
     visitedArray,
     backTrackArray,
   };
 };
 
-var sortNodesByDistance = (nodes) => {
-  var sortedNodes = nodes.sort((a, b) => compare(a, b));
+let sortNodesByDistance = (nodes) => {
+  let sortedNodes = nodes.sort((a, b) => compare(a, b));
   return sortedNodes;
 };
 

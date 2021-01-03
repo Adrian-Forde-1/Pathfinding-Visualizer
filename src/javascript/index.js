@@ -1,4 +1,10 @@
-import { renderGrid, gridObj, clearGrid, clearVisited } from "./grid.js";
+import {
+  renderGrid,
+  gridObj,
+  clearGrid,
+  clearVisited,
+  clearWalls,
+} from "./grid.js";
 import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
 import { visualizeDijkstra } from "../PathfindingAlgorithms/Dijkstra.js";
 // import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
@@ -33,6 +39,7 @@ export const visualize = () => {
     const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
       gridObj
     );
+    console.log("Visited Array Length:", visitedArray.length);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Depth First Search") {
@@ -44,6 +51,8 @@ export const visualize = () => {
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Dijkstra") {
     const { visitedArray, backTrackArray } = visualizeDijkstra(gridObj);
+
+    console.log("Visited Array Length:", visitedArray.length);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   }
@@ -52,6 +61,13 @@ export const visualize = () => {
 //Visualizes the algorithm
 const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   isRunning = true;
+
+  if (
+    document.querySelector("#visualize-btn") &&
+    !document.querySelector("#visualize-btn").classList.contains("disabled")
+  ) {
+    document.querySelector("#visualize-btn").classList.add("disabled");
+  }
 
   for (let i = 0; i < visitedNodes.length; i++) {
     setTimeout(() => {
@@ -106,10 +122,21 @@ const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   setTimeout(() => {
     isRunning = false;
     isFinished = true;
+    if (
+      document.querySelector("#visualize-btn") &&
+      document.querySelector("#visualize-btn").classList.contains("disabled")
+    ) {
+      document.querySelector("#visualize-btn").classList.remove("disabled");
+    }
   }, visitedNodeAnimTime * visitedNodes.length + backTrackNodeAnimTime * backTrackArray.length);
 };
 
+export const setIsFinished = (finished) => {
+  isFinished = finished;
+};
+
 const renderPath = (visitedNodes, backTrackArray) => {
+  console.log("Visualize bfs called");
   for (let i = 0; i < visitedNodes.length; i++) {
     if (
       document.querySelector(
@@ -166,6 +193,12 @@ if (document.querySelector("#visualize-btn")) {
       isFinished = false;
       visualize();
     }
+  });
+}
+
+if (document.querySelector("#clear-walls")) {
+  document.querySelector("#clear-walls").addEventListener("click", () => {
+    clearWalls();
   });
 }
 

@@ -244,6 +244,13 @@ export class Grid {
     }
   };
 
+  clearWalls = () => {
+    this.wallLocations.forEach((location) => {
+      this.grid[location[0]][location[1]]["isWall"] = false;
+    });
+    this.wallLocations = [];
+  };
+
   adjacentEdges = (locations) => {
     var adjacentEdgesLocations = [];
     adjacentEdgesLocations.push([locations[0] - 1, locations[1]]);

@@ -5,8 +5,8 @@ import { compareArray } from "../javascript/helpers/util.js";
 // import { Queue } from "../DataStructures/queue";
 
 export const visualizeBreathFirstSearch = (gridObj) => {
-  const queue = [];
-  const visitedArray = [];
+  let queue = [];
+  let visitedArray = [];
 
   var startNodeLocation = gridObj.getStartNodeLocation();
   var targetNodeLocation = gridObj.getTargetNodeLocation();
@@ -37,7 +37,9 @@ export const visualizeBreathFirstSearch = (gridObj) => {
   while (queue.length > 0) {
     currentNodeLocation = queue.shift();
 
-    if (grid[currentNodeLocation[0]][currentNodeLocation[1]]["isTarget"]) break;
+    if (grid[currentNodeLocation[0]][currentNodeLocation[1]]["isTarget"]) {
+      break;
+    }
 
     var edges = gridObj.adjacentEdges(currentNodeLocation);
     edges.forEach((edge) => {
@@ -58,6 +60,14 @@ export const visualizeBreathFirstSearch = (gridObj) => {
       }
     });
   }
+
+  //To remove all the unnecessary visited nodes from the array
+  //I did this until I can find a solution to stop the while loop when it encounters the visited array
+
+  let targetNodeIndex = visitedArray.findIndex((location) =>
+    compareArray(location, targetNodeLocation)
+  );
+  visitedArray = visitedArray.slice(0, targetNodeIndex + 1);
   var backTrackArray = [];
   if (compareArray(currentNodeLocation, targetNodeLocation)) {
     backTrackArray = pathfindingAlgorithmBackTrack(
@@ -66,6 +76,7 @@ export const visualizeBreathFirstSearch = (gridObj) => {
       grid
     );
   } else backTrackArray = [];
+
   return {
     visitedArray,
     backTrackArray,

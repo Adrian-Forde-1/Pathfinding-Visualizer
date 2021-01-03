@@ -1,5 +1,4 @@
-import Node from "./node.js";
-import { isRunning, isFinished, visualize, algorithmType } from "./index.js";
+import { isRunning, isFinished, visualize, setIsFinished } from "./index.js";
 import { Grid } from "./Grid/grid.js";
 import { compareArray } from "./helpers/util.js";
 
@@ -25,10 +24,6 @@ var draggingStartNode = false;
 var draggingTargetNode = false;
 
 gridObj.createGrid("Unweighted");
-
-const manageWall = (row, col, cell) => {
-  createWall(row, col, cell);
-};
 
 const mouseEnter = (row, col, cell) => {
   if (mouseDown) {
@@ -61,22 +56,34 @@ const createWall = (row, col, cell) => {
       cell.classList.remove("isWall");
     }
 
-    if (grid[row][col]["isWall"] && isFinished) visualize();
+    // console.log("Is Wall:", grid[row][col]["isWall"]);
+
+    if (isFinished) visualize();
   }
 };
 
 export const clearGrid = () => {
-  gridObj = new Grid(ROWS, COLS, START_NODE_LOCATION, TARGET_NODE_LOCATION);
-  const gridWrapper = document.querySelector(".grid__wrapper");
-  const body = document.querySelector("#body");
+  clearWalls();
+  clearVisited();
+  setIsFinished(false);
+};
 
-  gridWrapper.removeChild(body);
-  renderGrid();
+export const clearWalls = () => {
+  let wallLocations = gridObj.getWallLocations();
+  wallLocations.forEach((location) => {
+    if (document.querySelector(`#row-${location[0]}col-${location[1]}`)) {
+      let wall = document.querySelector(
+        `#row-${location[0]}col-${location[1]}`
+      );
+      if (wall.classList.contains("isWall")) wall.classList.remove("isWall");
+    }
+  });
+  gridObj.clearWalls();
+  if (isFinished) visualize();
 };
 
 export const clearVisited = () => {
   var nodes = document.querySelectorAll(".node");
-
   nodes.forEach((node) => {
     if (node.classList.contains("visited")) node.classList.remove("visited");
     if (node.classList.contains("visited-anim"))
@@ -145,7 +152,7 @@ const addEventListenersToGridCell = (cell, i, x) => {
     else {
       mouseDown = true;
 
-      manageWall(i, x, cell);
+      createWall(i, x, cell);
     }
   });
 
@@ -232,7 +239,7 @@ const addEventListenersToGridCell = (cell, i, x) => {
 
   // cell.addEventListener("click", () => {
   //   if (!draggingStartNode && !draggingTargetNode) {
-  //     manageWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
+  //     createWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
   //   }
   // });
 
