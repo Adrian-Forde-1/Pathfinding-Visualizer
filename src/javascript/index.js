@@ -7,7 +7,7 @@ import {
 } from "./grid.js";
 import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
 import { visualizeDijkstra } from "../PathfindingAlgorithms/Dijkstra.js";
-// import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
+import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
 
 const algorithmTypes = {
   Unweighted: "Unweighted",
@@ -43,10 +43,7 @@ export const visualize = () => {
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Depth First Search") {
-    var { visitedArray, backTrackArray } = visualizeDepthFirstSearch(
-      START_NODE_LOCATION,
-      grid
-    );
+    var { visitedArray, backTrackArray } = visualizeDepthFirstSearch(gridObj);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Dijkstra") {

@@ -237,11 +237,9 @@ const addEventListenersToGridCell = (cell, i, x) => {
     }
   });
 
-  // cell.addEventListener("click", () => {
-  //   if (!draggingStartNode && !draggingTargetNode) {
-  //     createWall(cell.getAttribute("row"), cell.getAttribute("col"), cell);
-  //   }
-  // });
+  cell.addEventListener("click", () => {
+    console.log(grid[i][x]);
+  });
 
   cell.addEventListener("drag", (e) => {
     e.preventDefault();

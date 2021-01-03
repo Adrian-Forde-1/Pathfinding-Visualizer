@@ -5,26 +5,26 @@ export const pathfindingAlgorithmBackTrack = (
   startNodeLocation,
   grid
 ) => {
-  // var backTrackArray = [];
-  // backTrackArray.push(backTrackStartLocation);
-  // var currentLocation = backTrackStartLocation;
-  // var currentNode = grid[backTrackStartLocation[0]][backTrackStartLocation[1]];
+  var backTrackArray = [];
+  backTrackArray.push(backTrackStartLocation);
+  var currentLocation = backTrackStartLocation;
+  var currentNode = grid[backTrackStartLocation[0]][backTrackStartLocation[1]];
 
-  // while (!compareArray(currentLocation, startNodeLocation)) {
-  //   if (currentNode["parentNodeLocation"].length > 0) {
-  //     backTrackArray.push(currentNode["parentNodeLocation"]);
-  //     currentNode =
-  //       grid[currentNode["parentNodeLocation"][0]][
-  //         currentNode["parentNodeLocation"][1]
-  //       ];
-  //     currentLocation = currentNode["parentNodeLocation"];
-  //   }
-  // }
+  console.log("Start Back Track Location:", backTrackStartLocation);
+  console.log("Start Location:", startNodeLocation);
 
-  // backTrackArray.push(startNodeLocation);
+  while (!compareArray(currentLocation, startNodeLocation)) {
+    if (currentNode["parentNodeLocation"].length > 0) {
+      backTrackArray.push(currentNode["parentNodeLocation"]);
+      currentNode =
+        grid[currentNode["parentNodeLocation"][0]][
+          currentNode["parentNodeLocation"][1]
+        ];
+      currentLocation = currentNode["parentNodeLocation"];
+    }
+  }
 
-  // return backTrackArray.reverse();
+  backTrackArray.push(startNodeLocation);
 
-  let arr = [];
-  return arr;
+  return backTrackArray.reverse();
 };

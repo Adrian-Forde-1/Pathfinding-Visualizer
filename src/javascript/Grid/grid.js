@@ -254,9 +254,9 @@ export class Grid {
   adjacentEdges = (locations) => {
     var adjacentEdgesLocations = [];
     adjacentEdgesLocations.push([locations[0] - 1, locations[1]]);
+    adjacentEdgesLocations.push([locations[0], locations[1] + 1]);
     adjacentEdgesLocations.push([locations[0] + 1, locations[1]]);
     adjacentEdgesLocations.push([locations[0], locations[1] - 1]);
-    adjacentEdgesLocations.push([locations[0], locations[1] + 1]);
 
     return adjacentEdgesLocations;
   };
