@@ -122,8 +122,8 @@ const depthFirstSearchHelper = (
   if (!compareArray(targetNodeLocation, currentNodeLocation)) {
     visitedArray.push(currentNodeLocation);
 
+    //Getting all the adjacent edges 
     var edges = gridObj.adjacentEdges(currentNodeLocation);
-
     for (let i = 0; i < edges.length; i++) {
       if (
         edges[i][0] >= 0 &&
@@ -132,10 +132,13 @@ const depthFirstSearchHelper = (
         edges[i][1] <= gridObj.getCols() - 1
       ) {
         if (!grid[edges[i][0]][edges[i][1]]["visited"]) {
+          if (grid[edges[i][0]][edges[i][1]]["isWall"]) {
+            grid[edges[i][0]][edges[i][1]]["visited"] = true;
+            continue;
+          }
           grid[edges[i][0]][edges[i][1]][
             "parentNodeLocation"
           ] = currentNodeLocation;
-          grid[edges[i][0]][edges[i][1]]["visited"] = true;
 
           if (compareArray(targetNodeLocation, edges[i])) {
             visitedArray.push(edges[i]);
@@ -147,15 +150,13 @@ const depthFirstSearchHelper = (
             break;
           }
 
-          if (!grid[edges[i][0]][edges[i][1]]["isWall"]) {
-            return depthFirstSearchHelper(
-              edges[i],
-              targetNodeLocation,
-              grid,
-              visitedArray,
-              gridObj
-            );
-          }
+          return depthFirstSearchHelper(
+            edges[i],
+            targetNodeLocation,
+            grid,
+            visitedArray,
+            gridObj
+          );
         }
       }
     }
