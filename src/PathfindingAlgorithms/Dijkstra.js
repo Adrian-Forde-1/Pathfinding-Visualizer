@@ -96,10 +96,7 @@ export const visualizeDijkstra = (gridObj) => {
 };
 
 let sortNodesByDistance = (nodes) => {
-  console.log("Nodes Length pre sort:", nodes.length);
   let sortedNodes = nodes.sort((a, b) => compare(a, b));
-  console.log("Nodes Length post sort:", nodes.length);
-  console.log("\n");
   return sortedNodes;
 };
 

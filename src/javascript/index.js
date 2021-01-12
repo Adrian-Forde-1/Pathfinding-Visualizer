@@ -34,12 +34,12 @@ if (document.querySelector("#clear-grid-btn")) {
 
 export const visualize = () => {
   clearVisited();
+  gridObj.clearVisited();
 
   if (currentAlgorithm === "Breath First Search") {
     const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
       gridObj
     );
-    console.log("Visited Array Length:", visitedArray.length);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Depth First Search") {
