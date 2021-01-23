@@ -35,6 +35,7 @@ if (document.querySelector("#clear-grid-btn")) {
 export const visualize = () => {
   clearVisited();
   gridObj.clearVisited();
+  gridObj.clearDistance();
 
   if (currentAlgorithm === "Breath First Search") {
     const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(

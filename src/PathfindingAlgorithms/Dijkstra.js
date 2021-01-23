@@ -4,18 +4,19 @@ import { compareArray } from "../javascript/helpers/util.js";
 export const visualizeDijkstra = (gridObj) => {
   let visitedArray = new Array();
   let backTrackArray = [];
-  let sortedNodes;
+  let sortedNodes = [...gridObj.getNodes()];
   let grid = [...gridObj.getGrid()];
   let startNodeLocation = [...gridObj.getStartNodeLocation()];
   let targetNodeLocation = [...gridObj.getTargetNodeLocation()];
   let currentNodeLocation = [...startNodeLocation];
   let currentNode;
 
+  // gridObj.getGridInfo();
+
   // console.log("Start Node Location:", startNodeLocation);
   // console.log("Target Node Location:", targetNodeLocation);
   // console.log("Current Node Location:", currentNodeLocation);
 
-  gridObj.clearVisited();
 
   if (
     !startNodeLocation ||
@@ -34,11 +35,11 @@ export const visualizeDijkstra = (gridObj) => {
   }
 
   grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
-  sortedNodes = [...gridObj.getNodes()];
+  
 
   // console.log("Sorted Nodes Length:", sortedNodes.length);
 
-  grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
+  // grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
 
   // console.log(gridObj.getWallLocations());
   while (!compareArray(currentNodeLocation, targetNodeLocation)) {

@@ -18,6 +18,20 @@ export class Grid {
     return this.rows;
   };
 
+  getGridInfo = () => {
+    let totalGridNodes = this.rows * this.cols;
+    let numVisited = 0;
+    let numUnVisited = 0;
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        if(this.grid[row][col]["visited"]) numVisited++;
+        else numUnVisited++;
+      }
+    }
+
+    console.log("Total Grid Nodes: ", totalGridNodes, "\nNumber of Visited Nodes: ", numVisited, "\nNumber of unvisited Nodes: ", numUnVisited);
+  }
+
   getCols = () => {
     return this.cols;
   };
@@ -241,6 +255,14 @@ export class Grid {
     for (let i = 0; i < this.grid.length; i++) {
       for (let x = 0; x < this.grid[i].length; x++)
         this.grid[i][x]["visited"] = false;
+        
+    }
+  };
+
+  clearDistance = () => {
+    for (let i = 0; i < this.grid.length; i++) {
+      for (let x = 0; x < this.grid[i].length; x++)
+      this.grid[i][x]["distance"] = 9999999999;
     }
   };
 
