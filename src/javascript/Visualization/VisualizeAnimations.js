@@ -6,6 +6,8 @@ const backTrackNodeAnimTime = 40;
 //Visualizes the algorithm
 export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   setIsRunning(true);
+  console.log("Visited Nodes");
+  console.log(visitedNodes);
 
   if (
     document.querySelector("#visualize-btn") &&

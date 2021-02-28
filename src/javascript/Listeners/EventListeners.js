@@ -10,7 +10,7 @@ import {
   setAlgorithmType,
 } from "../index.js";
 
-import { clearVisited, gridObj } from "../grid.js";
+import { clearVisited, gridObj, clearGrid, clearWalls } from "../grid.js";
 
 if (document.querySelector("#clear-grid-btn")) {
   document.querySelector("#clear-grid-btn").addEventListener("click", () => {
