@@ -2,7 +2,7 @@ import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfinding
 import { compareArray } from "../javascript/helpers/util.js";
 
 export const visualizeDijkstra = (gridObj) => {
-  let visitedArray = new Array();
+  let visitedArray = [];
   let backTrackArray = [];
   let sortedNodes = [...gridObj.getNodes()];
   let grid = [...gridObj.getGrid()];
@@ -16,7 +16,6 @@ export const visualizeDijkstra = (gridObj) => {
   // console.log("Start Node Location:", startNodeLocation);
   // console.log("Target Node Location:", targetNodeLocation);
   // console.log("Current Node Location:", currentNodeLocation);
-
 
   if (
     !startNodeLocation ||
@@ -35,13 +34,7 @@ export const visualizeDijkstra = (gridObj) => {
   }
 
   grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
-  
 
-  // console.log("Sorted Nodes Length:", sortedNodes.length);
-
-  // grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
-
-  // console.log(gridObj.getWallLocations());
   while (!compareArray(currentNodeLocation, targetNodeLocation)) {
     sortedNodes = sortNodesByDistance(sortedNodes);
     currentNode = sortedNodes.shift();
@@ -73,6 +66,7 @@ export const visualizeDijkstra = (gridObj) => {
             let nodeIndex = sortedNodes.findIndex((node) =>
               compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
             );
+
             sortedNodes[nodeIndex]["distance"] = currentNode["distance"] + 1;
           }
         }

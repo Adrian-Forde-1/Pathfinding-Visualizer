@@ -90,7 +90,7 @@ import { compareArray } from "../javascript/helpers/util.js";
 // };
 
 export const visualizeDepthFirstSearch = (gridObj) => {
-  let visitedArray = new Array();
+  let visitedArray = [];
   gridObj.clearVisited();
 
   let stack = [];
