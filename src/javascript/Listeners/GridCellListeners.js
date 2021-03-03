@@ -19,7 +19,6 @@ export const addEventListenersToGridCell = (cell, i, x) => {
     else if (grid[i][x]["isTarget"]) setDraggingTargetNode(true);
     else {
       setMouseDown(true);
-
       createWall(i, x, cell);
     }
   });
@@ -100,9 +99,11 @@ export const addEventListenersToGridCell = (cell, i, x) => {
       }
 
       if (isFinished) visualize();
-    } else {
-      mouseEnter(cell.getAttribute("row"), cell.getAttribute("col"), cell);
     }
+  });
+
+  cell.addEventListener("mouseover", () => {
+    mouseEnter(cell.getAttribute("row"), cell.getAttribute("col"), cell);
   });
 
   cell.addEventListener("click", () => {

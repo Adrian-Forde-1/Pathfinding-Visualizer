@@ -59,7 +59,7 @@
 }
 
 .node:hover {
-  background: #2d2e40;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .node:focus {
@@ -302,6 +302,7 @@
   border: none;
   background: none;
   cursor: pointer;
+  border-radius: 0px;
 }
 
 .nav-list__item button:hover {

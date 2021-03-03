@@ -24,6 +24,7 @@ export var draggingTargetNode = false;
 gridObj.createGrid("Unweighted");
 
 export const mouseEnter = (row, col, cell) => {
+  console.log("Mouse enter");
   if (mouseDown) {
     createWall(row, col, cell);
   }
