@@ -11,12 +11,6 @@ export const visualizeDijkstra = (gridObj) => {
   let currentNodeLocation = [...startNodeLocation];
   let currentNode;
 
-  // gridObj.getGridInfo();
-
-  // console.log("Start Node Location:", startNodeLocation);
-  // console.log("Target Node Location:", targetNodeLocation);
-  // console.log("Current Node Location:", currentNodeLocation);
-
   if (
     !startNodeLocation ||
     !targetNodeLocation ||
@@ -57,6 +51,12 @@ export const visualizeDijkstra = (gridObj) => {
             );
             grid[edge[0]][edge[1]]["visited"] = true;
             sortedNodes.splice(nodeIndex, 1);
+
+            //TODO: The algorithm is glitching because after it visites all the values,
+            //that enclose the start node, it starts visiting the other nodes that have
+            //a distance of 9999999999. I need to stop the algorithm if it has visited all the walls somehow
+
+            //1. Do more than just remove the wall when it has been visited
             return;
           } else {
             visitedArray.push(currentNodeLocation);
@@ -74,19 +74,18 @@ export const visualizeDijkstra = (gridObj) => {
     });
   }
 
-  // backTrackArray = pathfindingAlgorithmBackTrack(
-  //   currentNodeLocation,
-  //   startNodeLocation,
-  //   grid
-  // );
-
-  // console.log("Dijkstra called");
-  // console.log(visitedArray);
-  let arr = [];
+  if (compareArray(currentNodeLocation, targetNodeLocation)) {
+    console.log("Back tracking");
+    backTrackArray = pathfindingAlgorithmBackTrack(
+      currentNodeLocation,
+      startNodeLocation,
+      grid
+    );
+  }
 
   return {
     visitedArray,
-    backTrackArray: arr,
+    backTrackArray,
   };
 };
 

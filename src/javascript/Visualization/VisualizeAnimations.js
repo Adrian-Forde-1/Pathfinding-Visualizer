@@ -6,8 +6,6 @@ const backTrackNodeAnimTime = 40;
 //Visualizes the algorithm
 export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   setIsRunning(true);
-  console.log("Visited Nodes");
-  console.log(visitedNodes);
 
   if (
     document.querySelector("#visualize-btn") &&
@@ -79,7 +77,7 @@ export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
 };
 
 export const renderPath = (visitedNodes, backTrackArray) => {
-  console.log("Visualize bfs called");
+  // console.log(visitedNodes);
   for (let i = 0; i < visitedNodes.length; i++) {
     if (
       document.querySelector(

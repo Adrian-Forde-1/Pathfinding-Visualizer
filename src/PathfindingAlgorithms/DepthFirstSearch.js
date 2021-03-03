@@ -89,27 +89,24 @@ import { compareArray } from "../javascript/helpers/util.js";
 //   };
 // };
 
+let depth_fisrt_back_track_array = [];
+
 export const visualizeDepthFirstSearch = (gridObj) => {
-  let visitedArray = [];
   gridObj.clearVisited();
 
-  let stack = [];
-  let backTrackArray = [];
+  let visitedArray = [];
   let targetNodeLocation = gridObj.getTargetNodeLocation();
-  // let visitedArray = [];
   let startNodeLocation = gridObj.getStartNodeLocation();
   let grid = gridObj.getGrid();
 
   if (!grid[startNodeLocation[0]][startNodeLocation[1]]["isTarget"])
-    visitedArray.push(startNodeLocation);
-
-  return depthFirstSearchHelper(
-    startNodeLocation,
-    targetNodeLocation,
-    grid,
-    visitedArray,
-    gridObj
-  );
+    return depthFirstSearchHelper(
+      startNodeLocation,
+      targetNodeLocation,
+      grid,
+      visitedArray,
+      gridObj
+    );
 };
 
 const depthFirstSearchHelper = (
@@ -119,7 +116,7 @@ const depthFirstSearchHelper = (
   visitedArray,
   gridObj
 ) => {
-  let backTrackArray = [];
+  let foundTarget = false;
   if (!compareArray(targetNodeLocation, currentNodeLocation)) {
     visitedArray.push(currentNodeLocation);
 
@@ -130,7 +127,8 @@ const depthFirstSearchHelper = (
         edges[i][0] >= 0 &&
         edges[i][0] <= gridObj.getRows() - 1 &&
         edges[i][1] >= 0 &&
-        edges[i][1] <= gridObj.getCols() - 1
+        edges[i][1] <= gridObj.getCols() - 1 &&
+        !foundTarget
       ) {
         if (!grid[edges[i][0]][edges[i][1]]["visited"]) {
           grid[edges[i][0]][edges[i][1]][
@@ -140,12 +138,12 @@ const depthFirstSearchHelper = (
 
           if (compareArray(targetNodeLocation, edges[i])) {
             visitedArray.push(edges[i]);
-            backTrackArray = pathfindingAlgorithmBackTrack(
+            depth_fisrt_back_track_array = pathfindingAlgorithmBackTrack(
               edges[i],
               gridObj.getStartNodeLocation(),
               grid
             );
-            break;
+            foundTarget = true;
           }
 
           if (!grid[edges[i][0]][edges[i][1]]["isWall"]) {
@@ -160,10 +158,58 @@ const depthFirstSearchHelper = (
         }
       }
     }
+
+    if (
+      !foundTarget &&
+      Array.isArray(
+        grid[currentNodeLocation[0]][currentNodeLocation[1]][
+          "parentNodeLocation"
+        ]
+      ) &&
+      grid[currentNodeLocation[0]][currentNodeLocation[1]]["parentNodeLocation"]
+        .length > 0
+    ) {
+      let edgesOfParent = gridObj.adjacentEdges(
+        grid[currentNodeLocation[0]][currentNodeLocation[1]][
+          "parentNodeLocation"
+        ]
+      );
+
+      let numberOfUnvisited = edgesOfParent.length;
+
+      for (let i = 0; i < edgesOfParent.length; i++) {
+        if (
+          edgesOfParent[i][0] >= 0 &&
+          edgesOfParent[i][0] <= gridObj.getRows() - 1 &&
+          edgesOfParent[i][1] >= 0 &&
+          edgesOfParent[i][1] <= gridObj.getCols() - 1
+        ) {
+          if (grid[edgesOfParent[i][0]][edgesOfParent[i][1]]["visited"])
+            numberOfUnvisited--;
+        }
+      }
+
+      if (
+        numberOfUnvisited !== 0 &&
+        !grid[currentNodeLocation[0]][currentNodeLocation[1]][
+          "parentNodeLocation"
+        ]["isWall"]
+      ) {
+        return depthFirstSearchHelper(
+          grid[currentNodeLocation[0]][currentNodeLocation[1]][
+            "parentNodeLocation"
+          ],
+          targetNodeLocation,
+          grid,
+          visitedArray,
+          gridObj
+        );
+      }
+    }
   }
 
   return {
     visitedArray,
-    backTrackArray,
+    backTrackArray: depth_fisrt_back_track_array,
   };
 };

@@ -51,9 +51,6 @@ export const visualize = () => {
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Dijkstra") {
     const { visitedArray, backTrackArray } = visualizeDijkstra(gridObj);
-
-    console.log("Back track array");
-    console.log(backTrackArray);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   }

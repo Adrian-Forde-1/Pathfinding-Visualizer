@@ -50,7 +50,10 @@ export const visualizeBreathFirstSearch = (gridObj) => {
         edge[1] <= gridObj.getCols() - 1
       ) {
         if (!grid[edge[0]][edge[1]]["visited"]) {
-          if (grid[edge[0]][edge[1]]["isWall"]) return;
+          if (grid[edge[0]][edge[1]]["isWall"]) {
+            grid[edge[0]][edge[1]]["visited"] = true;
+            return;
+          }
 
           grid[edge[0]][edge[1]]["visited"] = true;
           grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
@@ -64,18 +67,27 @@ export const visualizeBreathFirstSearch = (gridObj) => {
   //To remove all the unnecessary visited nodes from the array
   //I did this until I can find a solution to stop the while loop when it encounters the visited array
 
-  let targetNodeIndex = visitedArray.findIndex((location) =>
-    compareArray(location, targetNodeLocation)
-  );
-  visitedArray = visitedArray.slice(0, targetNodeIndex + 1);
+  // let targetNodeIndex = visitedArray.findIndex((location) =>
+  //   compareArray(location, targetNodeLocation)
+  // );
+  // visitedArray = visitedArray.slice(0, targetNodeIndex + 1);
+  // var backTrackArray = [];
+  // if (compareArray(currentNodeLocation, targetNodeLocation)) {
+  //   backTrackArray = pathfindingAlgorithmBackTrack(
+  //     new Array(currentNodeLocation[0], currentNodeLocation[1]),
+  //     startNodeLocation,
+  //     grid
+  //   );
+  // } else backTrackArray = [];
   var backTrackArray = [];
+
   if (compareArray(currentNodeLocation, targetNodeLocation)) {
     backTrackArray = pathfindingAlgorithmBackTrack(
       new Array(currentNodeLocation[0], currentNodeLocation[1]),
       startNodeLocation,
       grid
     );
-  } else backTrackArray = [];
+  }
 
   return {
     visitedArray,
