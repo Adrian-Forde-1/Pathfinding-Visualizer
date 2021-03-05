@@ -95,6 +95,7 @@ export const visualizeDepthFirstSearch = (gridObj) => {
   gridObj.clearVisited();
 
   let visitedArray = [];
+  depth_fisrt_back_track_array = [];
   let targetNodeLocation = gridObj.getTargetNodeLocation();
   let startNodeLocation = gridObj.getStartNodeLocation();
   let grid = gridObj.getGrid();
@@ -131,9 +132,11 @@ const depthFirstSearchHelper = (
         !foundTarget
       ) {
         if (!grid[edges[i][0]][edges[i][1]]["visited"]) {
-          grid[edges[i][0]][edges[i][1]][
-            "parentNodeLocation"
-          ] = currentNodeLocation;
+          if (grid[edges[i][0]][edges[i][1]]["parentNodeLocation"].length <= 0)
+            grid[edges[i][0]][edges[i][1]][
+              "parentNodeLocation"
+            ] = currentNodeLocation;
+
           grid[edges[i][0]][edges[i][1]]["visited"] = true;
 
           if (compareArray(targetNodeLocation, edges[i])) {
@@ -190,7 +193,6 @@ const depthFirstSearchHelper = (
       }
 
       if (
-        numberOfUnvisited !== 0 &&
         !grid[currentNodeLocation[0]][currentNodeLocation[1]][
           "parentNodeLocation"
         ]["isWall"]
