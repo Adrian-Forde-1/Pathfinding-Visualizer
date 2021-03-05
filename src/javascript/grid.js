@@ -47,19 +47,26 @@ export const createWall = (row, col, cell) => {
     grid[row][col]["isTarget"] === false
   ) {
     if (!grid[row][col]["isWall"]) {
-      grid[row][col]["isWall"] = true;
       let wallLocations = gridObj.getWallLocations();
+
+      grid[row][col]["isWall"] = true;
+
       wallLocations.push(new Array(parseInt(row), parseInt(col)));
+
       gridObj.setWallLocations(wallLocations);
+
       cell.classList.add("isWall");
     } else {
-      grid[row][col]["isWall"] = false;
       let wallLocations = gridObj.getWallLocations();
+
+      grid[row][col]["isWall"] = false;
+
       let wallIndex = wallLocations.findIndex((location) =>
         compareArray(location, new Array(parseInt(row), parseInt(col)))
       );
 
       if (wallIndex > -1) wallLocations.splice(wallIndex, 1);
+
       gridObj.setWallLocations(wallLocations);
 
       cell.classList.remove("isWall");

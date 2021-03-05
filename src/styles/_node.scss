@@ -9,11 +9,7 @@
   &:last-of-type {
     border-right: 1px solid #d3d3d3;
   }
-  cursor: pointer;
-
-  // &.isWal-anim {
-  //   animation: wallAnimation 500ms ease-out forwards !important;
-  // }
+  // cursor: pointer;
 
   &.isWeigt {
     background: purple !important;
@@ -50,7 +46,7 @@
   &.isWall {
     background: $main-dark;
     // border-color: yellow;
-    animation: wallAnimation 500ms ease-out forwards;
+    animation: wallAnimation 400ms linear forwards;
   }
 
   &.back-track {
@@ -82,7 +78,7 @@
     transform: scale(0);
   }
   50% {
-    background: $main-light-blue;
+    // background: $main-light-blue;
     transform: scale(1.2);
   }
   100% {

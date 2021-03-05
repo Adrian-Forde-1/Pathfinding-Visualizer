@@ -19,8 +19,13 @@ export const addEventListenersToGridCell = (cell, i, x) => {
     else if (grid[i][x]["isTarget"]) setDraggingTargetNode(true);
     else {
       setMouseDown(true);
-      createWall(i, x, cell);
     }
+  });
+
+  cell.addEventListener("mouseup", () => {
+    if (grid[i][x]["isStart"]) setDraggingStartNode(true);
+    else if (grid[i][x]["isTarget"]) setDraggingTargetNode(true);
+    else createWall(i, x, cell);
   });
 
   cell.addEventListener("mouseup", () => {

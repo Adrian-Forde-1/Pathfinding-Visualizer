@@ -3,7 +3,6 @@
   height: 25px;
   border-left: 1px solid #d3d3d3;
   border-bottom: 1px solid #d3d3d3;
-  cursor: pointer;
 }
 
 .node:last-of-type {
@@ -40,8 +39,8 @@
 
 .node.isWall {
   background: #2d2e40;
-  -webkit-animation: wallAnimation 500ms ease-out forwards;
-          animation: wallAnimation 500ms ease-out forwards;
+  -webkit-animation: wallAnimation 400ms linear forwards;
+          animation: wallAnimation 400ms linear forwards;
 }
 
 .node.back-track {
@@ -72,7 +71,6 @@
             transform: scale(0);
   }
   50% {
-    background: #55d99b;
     -webkit-transform: scale(1.2);
             transform: scale(1.2);
   }
@@ -90,7 +88,6 @@
             transform: scale(0);
   }
   50% {
-    background: #55d99b;
     -webkit-transform: scale(1.2);
             transform: scale(1.2);
   }
