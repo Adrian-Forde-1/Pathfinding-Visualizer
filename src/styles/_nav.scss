@@ -33,6 +33,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     button {
       width: 100%;
@@ -82,6 +83,51 @@
       &:hover {
         background: rgba(0, 0, 0, 0.5);
       }
+    }
+
+    input[type="range"] {
+      appearance: none;
+      height: 4px;
+      width: 150px;
+      background: #0dfcb5;
+      border-radius: 20px;
+
+      &:focus {
+        outline: none;
+        border: 1px solid #fff;
+      }
+
+      &:disabled {
+        filter: brightness(50%);
+      }
+
+      &::-webkit-slider-thumb {
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+      }
+    }
+
+    &__info-text {
+      margin-left: 10px;
+      color: #0dfcb5;
+      font-weight: bold;
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      transform: translateY(-50%);
+    }
+
+    &__input-lbl {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: #fff;
     }
   }
 }

@@ -33,6 +33,21 @@
           <li class="nav-list__item">
             <button id="clear-walls">Clear Walls</button>
           </li>
+          <li class="nav-list__item">
+            <span class="nav-list__item__input-lbl">Speed</span>
+            <input
+              id="algo-speed-slider"
+              type="range"
+              min="15"
+              max="80"
+              step="5"
+              value="15"
+            />
+            <span
+              class="nav-list__item__info-text"
+              id="algo-speed-slider-value"
+            ></span>
+          </li>
         </div>
       </nav>
       <div class="grid__wrapper" draggable="false"></div>
