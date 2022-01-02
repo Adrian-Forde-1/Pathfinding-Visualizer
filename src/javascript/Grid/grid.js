@@ -24,13 +24,20 @@ export class Grid {
     let numUnVisited = 0;
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
-        if(this.grid[row][col]["visited"]) numVisited++;
+        if (this.grid[row][col]["visited"]) numVisited++;
         else numUnVisited++;
       }
     }
 
-    console.log("Total Grid Nodes: ", totalGridNodes, "\nNumber of Visited Nodes: ", numVisited, "\nNumber of unvisited Nodes: ", numUnVisited);
-  }
+    console.log(
+      "Total Grid Nodes: ",
+      totalGridNodes,
+      "\nNumber of Visited Nodes: ",
+      numVisited,
+      "\nNumber of unvisited Nodes: ",
+      numUnVisited
+    );
+  };
 
   getCols = () => {
     return this.cols;
@@ -39,6 +46,24 @@ export class Grid {
   getGrid = () => {
     return this.grid;
   };
+
+  // position = Array : 1st index = x, 2nd index = y in grid
+  // Returns node at position in grid
+  getNodeAtPosition = (position) => {
+    return this.grid[position[0]][position[1]];
+  };
+
+  isEdgeInGrid(node) {
+    if (
+      node[0] >= 0 &&
+      node[0] <= this.getRows() - 1 &&
+      node[1] >= 0 &&
+      node[1] <= this.getCols() - 1
+    )
+      return true;
+
+    return false;
+  }
 
   getWallLocations = () => {
     return this.wallLocations;
@@ -80,36 +105,15 @@ export class Grid {
 
         if (nodeType === "Unweighted") {
           if (compareArray(this.startNodeLocation, new Array(i, x))) {
-            let node = new UnweightedNode(
-              true,
-              false,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(true, false, isWall, false, [], new Array(i, x));
             this.grid[i][x] = node;
             this.nodes.push(node);
           } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
-            let node = new UnweightedNode(
-              false,
-              true,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(false, true, isWall, false, [], new Array(i, x));
             this.grid[i][x] = node;
             this.nodes.push(node);
           } else {
-            let node = new UnweightedNode(
-              false,
-              false,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(false, false, isWall, false, [], new Array(i, x));
             this.grid[i][x] = node;
             this.nodes.push(node);
           }
@@ -169,36 +173,15 @@ export class Grid {
 
         if (nodeType === "Unweighted") {
           if (compareArray(this.startNodeLocation, new Array(i, x))) {
-            let node = new UnweightedNode(
-              true,
-              false,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(true, false, isWall, false, [], new Array(i, x));
             row.push(node);
             this.nodes.push(node);
           } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
-            let node = new UnweightedNode(
-              false,
-              true,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(false, true, isWall, false, [], new Array(i, x));
             row.push(node);
             this.nodes.push(node);
           } else {
-            let node = new UnweightedNode(
-              false,
-              false,
-              isWall,
-              false,
-              [],
-              new Array(i, x)
-            );
+            let node = new UnweightedNode(false, false, isWall, false, [], new Array(i, x));
             row.push(node);
             this.nodes.push(node);
           }
@@ -206,39 +189,15 @@ export class Grid {
           initialGridRow.push(new UnweightedNode());
         } else if (nodeType === "Weighted") {
           if (compareArray(this.startNodeLocation, new Array(i, x))) {
-            let node = new Weighted(
-              true,
-              false,
-              isWall,
-              false,
-              [],
-              9999999999,
-              new Array(i, x)
-            );
+            let node = new Weighted(true, false, isWall, false, [], 9999999999, new Array(i, x));
             row.push();
             this.nodes.push(node);
           } else if (compareArray(this.targetNodeLocation, new Array(i, x))) {
-            let node = new Weighted(
-              false,
-              true,
-              isWall,
-              false,
-              [],
-              9999999999,
-              new Array(i, x)
-            );
+            let node = new Weighted(false, true, isWall, false, [], 9999999999, new Array(i, x));
             row.push();
             this.nodes.push(node);
           } else {
-            let node = new Weighted(
-              false,
-              false,
-              isWall,
-              false,
-              [],
-              9999999999,
-              new Array(i, x)
-            );
+            let node = new Weighted(false, false, isWall, false, [], 9999999999, new Array(i, x));
             row.push();
             this.nodes.push(node);
           }
@@ -253,16 +212,13 @@ export class Grid {
 
   clearVisited = () => {
     for (let i = 0; i < this.grid.length; i++) {
-      for (let x = 0; x < this.grid[i].length; x++)
-        this.grid[i][x]["visited"] = false;
-        
+      for (let x = 0; x < this.grid[i].length; x++) this.grid[i][x]["visited"] = false;
     }
   };
 
   clearDistance = () => {
     for (let i = 0; i < this.grid.length; i++) {
-      for (let x = 0; x < this.grid[i].length; x++)
-      this.grid[i][x]["distance"] = 9999999999;
+      for (let x = 0; x < this.grid[i].length; x++) this.grid[i][x]["distance"] = 9999999999;
     }
   };
 

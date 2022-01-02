@@ -1,4 +1,5 @@
 // import { ROWS, COLS, adjacentEdges } from "../javascript/grid.js";
+import { gridObj } from "../javascript/grid.js";
 import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
 import { compareArray } from "../javascript/helpers/util.js";
 
@@ -89,18 +90,18 @@ import { compareArray } from "../javascript/helpers/util.js";
 //   };
 // };
 
-let depth_fisrt_back_track_array = [];
+let DFSBackTrackArray = [];
 
 export const visualizeDepthFirstSearch = (gridObj) => {
   gridObj.clearVisited();
 
   let visitedArray = [];
-  depth_fisrt_back_track_array = [];
+  DFSBackTrackArray = [];
   let targetNodeLocation = gridObj.getTargetNodeLocation();
   let startNodeLocation = gridObj.getStartNodeLocation();
   let grid = gridObj.getGrid();
 
-  if (!grid[startNodeLocation[0]][startNodeLocation[1]]["isTarget"])
+  if (!gridObj.getNodeAtPosition(startNodeLocation)["isTarget"])
     return depthFirstSearchHelper(
       startNodeLocation,
       targetNodeLocation,
@@ -115,103 +116,110 @@ const depthFirstSearchHelper = (
   targetNodeLocation,
   grid,
   visitedArray,
-  gridObj
+  gridObj,
+  stopAlgo = false
 ) => {
   let foundTarget = false;
+  console.log("CALLED");
+  console.log(currentNodeLocation);
   if (!compareArray(targetNodeLocation, currentNodeLocation)) {
     visitedArray.push(currentNodeLocation);
 
     var edges = gridObj.adjacentEdges(currentNodeLocation);
 
-    for (let i = 0; i < edges.length; i++) {
-      if (
-        edges[i][0] >= 0 &&
-        edges[i][0] <= gridObj.getRows() - 1 &&
-        edges[i][1] >= 0 &&
-        edges[i][1] <= gridObj.getCols() - 1 &&
-        !foundTarget
-      ) {
-        if (!grid[edges[i][0]][edges[i][1]]["visited"]) {
-          if (grid[edges[i][0]][edges[i][1]]["parentNodeLocation"].length <= 0)
-            grid[edges[i][0]][edges[i][1]][
-              "parentNodeLocation"
-            ] = currentNodeLocation;
-
-          grid[edges[i][0]][edges[i][1]]["visited"] = true;
-
-          if (compareArray(targetNodeLocation, edges[i])) {
-            visitedArray.push(edges[i]);
-            depth_fisrt_back_track_array = pathfindingAlgorithmBackTrack(
-              edges[i],
-              gridObj.getStartNodeLocation(),
-              grid
-            );
-            foundTarget = true;
-          }
-
-          if (!grid[edges[i][0]][edges[i][1]]["isWall"]) {
-            return depthFirstSearchHelper(
-              edges[i],
-              targetNodeLocation,
-              grid,
-              visitedArray,
-              gridObj
-            );
-          }
-        }
-      }
-    }
-
-    if (
-      !foundTarget &&
-      Array.isArray(
-        grid[currentNodeLocation[0]][currentNodeLocation[1]][
-          "parentNodeLocation"
-        ]
-      ) &&
-      grid[currentNodeLocation[0]][currentNodeLocation[1]]["parentNodeLocation"]
-        .length > 0
-    ) {
-      let edgesOfParent = gridObj.adjacentEdges(
-        grid[currentNodeLocation[0]][currentNodeLocation[1]][
-          "parentNodeLocation"
-        ]
-      );
-
-      let numberOfUnvisited = edgesOfParent.length;
-
-      for (let i = 0; i < edgesOfParent.length; i++) {
+    if (allEdgesAreVisited(edges, gridObj))
+      backTrack({ currentNodeLocation, targetNodeLocation, grid, visitedArray }, gridObj);
+    else {
+      for (let i = 0; i < edges.length; i++) {
+        // Check if node/edge is within bounds of grid
         if (
-          edgesOfParent[i][0] >= 0 &&
-          edgesOfParent[i][0] <= gridObj.getRows() - 1 &&
-          edgesOfParent[i][1] >= 0 &&
-          edgesOfParent[i][1] <= gridObj.getCols() - 1
+          edges[i][0] >= 0 &&
+          edges[i][0] <= gridObj.getRows() - 1 &&
+          edges[i][1] >= 0 &&
+          edges[i][1] <= gridObj.getCols() - 1 &&
+          !foundTarget
         ) {
-          if (grid[edgesOfParent[i][0]][edgesOfParent[i][1]]["visited"])
-            numberOfUnvisited--;
-        }
-      }
+          if (!gridObj.getNodeAtPosition(edges[i])["visited"]) {
+            // Set visited to true so that this node will not be visited more than once
+            gridObj.getNodeAtPosition(edges[i])["parentNodeLocation"] = currentNodeLocation;
+            gridObj.getNodeAtPosition(edges[i])["visited"] = true;
 
-      if (
-        !grid[currentNodeLocation[0]][currentNodeLocation[1]][
-          "parentNodeLocation"
-        ]["isWall"]
-      ) {
-        return depthFirstSearchHelper(
-          grid[currentNodeLocation[0]][currentNodeLocation[1]][
-            "parentNodeLocation"
-          ],
-          targetNodeLocation,
-          grid,
-          visitedArray,
-          gridObj
-        );
+            // If edge is end node
+            if (compareArray(targetNodeLocation, edges[i])) {
+              visitedArray.push(edges[i]);
+              DFSBackTrackArray = pathfindingAlgorithmBackTrack(
+                edges[i],
+                gridObj.getStartNodeLocation(),
+                grid
+              );
+              foundTarget = true;
+            }
+
+            if (!gridObj.getNodeAtPosition(edges[i])["isWall"]) {
+              // Set parent node which will be used for backtracking
+
+              return depthFirstSearchHelper(
+                edges[i],
+                targetNodeLocation,
+                grid,
+                visitedArray,
+                gridObj
+              );
+            }
+          }
+        }
       }
     }
   }
 
   return {
     visitedArray,
-    backTrackArray: depth_fisrt_back_track_array,
+    backTrackArray: DFSBackTrackArray,
   };
+};
+
+const backTrack = (data, gridObj) => {
+  const { currentNodeLocation, targetNodeLocation, grid, visitedArray } = data;
+  console.log("BACKTRACK CALLED");
+  console.log(currentNodeLocation);
+  console.log(
+    gridObj.isEdgeInGrid(currentNodeLocation) &&
+      Array.isArray(gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"]) &&
+      gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"].length > 0
+  );
+  if (
+    gridObj.isEdgeInGrid(currentNodeLocation) &&
+    Array.isArray(gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"]) &&
+    gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"].length > 0
+  ) {
+    let edgesOfParent = gridObj.adjacentEdges(
+      gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"]
+    );
+
+    if (allEdgesAreVisited(edgesOfParent, gridObj)) backTrack(data, gridObj);
+
+    if (!gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"]["isWall"]) {
+      return depthFirstSearchHelper(
+        gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"],
+        targetNodeLocation,
+        grid,
+        visitedArray,
+        gridObj
+      );
+    }
+  }
+};
+
+const allEdgesAreVisited = (edges, gridObj) => {
+  let allVisited = true;
+  let nonWallEdges = edges.filter(
+    (edge) => gridObj.isEdgeInGrid(edge) && !gridObj.getNodeAtPosition(edge)["isWall"]
+  );
+  if (nonWallEdges && nonWallEdges.length > 0) {
+    nonWallEdges.forEach((edge) => {
+      if (!gridObj.getNodeAtPosition(edge)["visited"]) allVisited = false;
+    });
+  }
+
+  return allVisited;
 };

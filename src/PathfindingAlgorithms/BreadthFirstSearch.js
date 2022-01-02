@@ -4,7 +4,7 @@ import { compareArray } from "../javascript/helpers/util.js";
 
 // import { Queue } from "../DataStructures/queue";
 
-export const visualizeBreathFirstSearch = (gridObj) => {
+export const visualizeBreadthFirstSearch = (gridObj) => {
   let queue = [];
   let visitedArray = [];
 
@@ -17,14 +17,10 @@ export const visualizeBreathFirstSearch = (gridObj) => {
 
   queue.push(startNodeLocation);
 
-  if (
-    !startNodeLocation ||
-    !targetNodeLocation ||
-    startNodeLocation === targetNodeLocation
-  )
+  if (!startNodeLocation || !targetNodeLocation || startNodeLocation === targetNodeLocation)
     return false;
 
-  if (grid[startNodeLocation[0]][startNodeLocation[1]]["isTarget"]) {
+  if (gridObj.getNodeAtPosition(startNodeLocation)["isTarget"]) {
     let backTrackArray = [];
     return {
       visitedArray,
@@ -32,7 +28,7 @@ export const visualizeBreathFirstSearch = (gridObj) => {
     };
   }
 
-  grid[startNodeLocation[0]][startNodeLocation[1]]["visited"] = true;
+  gridObj.getNodeAtPosition(startNodeLocation)["visited"] = true;
 
   while (queue.length > 0) {
     currentNodeLocation = queue.shift();
