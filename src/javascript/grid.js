@@ -62,8 +62,6 @@ export const createWall = (row, col, cell) => {
       cell.classList.remove("isWall");
     }
 
-    // console.log("Is Wall:", grid[row][col]["isWall"]);
-
     if (isFinished) visualize();
   }
 };

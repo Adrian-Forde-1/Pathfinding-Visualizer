@@ -22,7 +22,6 @@ if (speedSlider !== null && speedSliderValue !== null) {
 export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   setIsRunning(true);
   speedSlider.disabled = true;
-  console.log(visitedNodes);
 
   if (
     document.querySelector("#visualize-btn") &&
@@ -33,22 +32,14 @@ export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
 
   for (let i = 0; i < visitedNodes.length; i++) {
     setTimeout(() => {
-      if (
-        document.querySelector(
-          `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
-        )
-      ) {
+      if (document.querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)) {
         if (
           document
-            .querySelector(
-              `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
-            )
+            .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
             .classList.contains("visited")
         )
           document
-            .querySelector(
-              `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
-            )
+            .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
             .classList.remove("visited");
         document
           .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
@@ -60,21 +51,13 @@ export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
   setTimeout(() => {
     for (let i = 0; i < backTrackArray.length; i++) {
       setTimeout(() => {
-        if (
-          document.querySelector(
-            `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-          )
-        ) {
+        if (document.querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)) {
           document
-            .querySelector(
-              `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-            )
+            .querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)
             .classList.remove("visited-anim");
 
           document
-            .querySelector(
-              `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-            )
+            .querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)
             .classList.add("back-track");
         }
       }, backTrackNodeAnimTime * i);
@@ -97,11 +80,7 @@ export const visualizeAlgorithm = (visitedNodes, backTrackArray) => {
 export const renderPath = (visitedNodes, backTrackArray) => {
   // console.log(visitedNodes);
   for (let i = 0; i < visitedNodes.length; i++) {
-    if (
-      document.querySelector(
-        `#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`
-      )
-    ) {
+    if (document.querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)) {
       if (
         document
           .querySelector(`#row-${visitedNodes[i][0]}col-${visitedNodes[i][1]}`)
@@ -117,21 +96,13 @@ export const renderPath = (visitedNodes, backTrackArray) => {
   }
 
   for (let i = 0; i < backTrackArray.length; i++) {
-    if (
-      document.querySelector(
-        `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-      )
-    ) {
+    if (document.querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)) {
       document
-        .querySelector(
-          `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-        )
+        .querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)
         .classList.remove("visited");
 
       document
-        .querySelector(
-          `#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`
-        )
+        .querySelector(`#row-${backTrackArray[i][0]}col-${backTrackArray[i][1]}`)
         .classList.add("back-track");
     }
   }

@@ -11,11 +11,7 @@ export const visualizeDijkstra = (gridObj) => {
   let currentNodeLocation = [...startNodeLocation];
   let currentNode;
 
-  if (
-    !startNodeLocation ||
-    !targetNodeLocation ||
-    startNodeLocation === targetNodeLocation
-  ) {
+  if (!startNodeLocation || !targetNodeLocation || startNodeLocation === targetNodeLocation) {
     return false;
   }
 
@@ -75,12 +71,7 @@ export const visualizeDijkstra = (gridObj) => {
   }
 
   if (compareArray(currentNodeLocation, targetNodeLocation)) {
-    console.log("Back tracking");
-    backTrackArray = pathfindingAlgorithmBackTrack(
-      currentNodeLocation,
-      startNodeLocation,
-      grid
-    );
+    backTrackArray = pathfindingAlgorithmBackTrack(currentNodeLocation, startNodeLocation, grid);
   }
 
   return {

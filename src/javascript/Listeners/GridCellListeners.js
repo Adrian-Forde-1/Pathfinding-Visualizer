@@ -99,10 +99,6 @@ export const addEventListenersToGridCell = (cell, i, x) => {
     mouseEnter(cell.getAttribute("row"), cell.getAttribute("col"), cell);
   });
 
-  // cell.addEventListener("click", () => {
-  //   console.log(grid[i][x]);
-  // });
-
   cell.addEventListener("drag", (e) => {
     e.preventDefault();
   });

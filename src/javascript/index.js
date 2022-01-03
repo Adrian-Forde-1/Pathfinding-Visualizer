@@ -17,7 +17,10 @@ export const unweightedAlgrithms = ["Breadth First Search", "Depth First Search"
 export var isRunning = false;
 export var isFinished = false;
 export var algorithmType = algorithmTypes.Unweighted;
-export var currentAlgorithm = "Depth First Search";
+export var currentAlgorithm =
+  document.querySelector("#current-algorithm").options[
+    document.querySelector("#current-algorithm").selectedIndex
+  ].text;
 var reset = false;
 
 // createGrid();

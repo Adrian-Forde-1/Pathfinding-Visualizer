@@ -33,8 +33,6 @@ const depthFirstSearchHelper = (
   gridObj,
   stopAlgo = false
 ) => {
-  // console.log("STOP ALGO:", stopAlgo);
-  console.log(currentNodeLocation);
   let foundTarget = false;
   if (!compareArray(targetNodeLocation, currentNodeLocation) && !stopAlgo) {
     gridObj.getNodeAtPosition(currentNodeLocation)["visited"] = true;
@@ -105,11 +103,20 @@ const backTrack = (data, gridObj) => {
       gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"]
     );
 
-    console.log("///////////////////////////////////////");
-    console.log(currentNodeLocation);
-    console.log(allEdgesAreVisited(edgesOfParent, gridObj));
-    console.log("///////////////////////////////////////");
-    if (allEdgesAreVisited(edgesOfParent, gridObj))
+    if (
+      allEdgesAreVisited(edgesOfParent, gridObj) &&
+      compareArray(currentNodeLocation, startNodeLocation)
+    )
+      return depthFirstSearchHelper(
+        startNodeLocation,
+        gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"],
+        targetNodeLocation,
+        grid,
+        visitedArray,
+        gridObj,
+        true
+      );
+    else if (allEdgesAreVisited(edgesOfParent, gridObj))
       backTrack(
         {
           ...data,
