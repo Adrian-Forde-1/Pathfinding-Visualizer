@@ -41,19 +41,13 @@ export const addEventListenersToGridCell = (cell, i, x) => {
 
       //Remove start node class if the element contains it
       if (
-        document.querySelector(
-          `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-        ) &&
+        document.querySelector(`#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`) &&
         document
-          .querySelector(
-            `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-          )
+          .querySelector(`#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`)
           .classList.contains("isStart")
       )
         document
-          .querySelector(
-            `#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`
-          )
+          .querySelector(`#row-${startNodeLocation[0]}col-${startNodeLocation[1]}`)
           .classList.remove("isStart");
 
       //Set the isStart property on the current start node to false so that
@@ -75,19 +69,13 @@ export const addEventListenersToGridCell = (cell, i, x) => {
 
       //Remove target node class if the element contains it
       if (
-        document.querySelector(
-          `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-        ) &&
+        document.querySelector(`#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`) &&
         document
-          .querySelector(
-            `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-          )
+          .querySelector(`#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`)
           .classList.contains("isTarget")
       )
         document
-          .querySelector(
-            `#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`
-          )
+          .querySelector(`#row-${targetNodeLocation[0]}col-${targetNodeLocation[1]}`)
           .classList.remove("isTarget");
 
       //Set the isTarget property on the current start node to false so that
@@ -111,9 +99,9 @@ export const addEventListenersToGridCell = (cell, i, x) => {
     mouseEnter(cell.getAttribute("row"), cell.getAttribute("col"), cell);
   });
 
-  cell.addEventListener("click", () => {
-    console.log(grid[i][x]);
-  });
+  // cell.addEventListener("click", () => {
+  //   console.log(grid[i][x]);
+  // });
 
   cell.addEventListener("drag", (e) => {
     e.preventDefault();

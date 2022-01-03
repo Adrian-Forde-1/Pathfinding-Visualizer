@@ -1,18 +1,9 @@
-import {
-  renderGrid,
-  gridObj,
-  clearGrid,
-  clearVisited,
-  clearWalls,
-} from "./grid.js";
+import { renderGrid, gridObj, clearGrid, clearVisited, clearWalls } from "./grid.js";
 
-import { visualizeBreathFirstSearch } from "../PathfindingAlgorithms/BreathFirstSearch.js";
+import { visualizeBreadthFirstSearch } from "../PathfindingAlgorithms/BreadthFirstSearch.js";
 import { visualizeDijkstra } from "../PathfindingAlgorithms/Dijkstra.js";
 import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
-import {
-  renderPath,
-  visualizeAlgorithm,
-} from "./Visualization/VisualizeAnimations.js";
+import { renderPath, visualizeAlgorithm } from "./Visualization/VisualizeAnimations.js";
 
 import "./Listeners/EventListeners.js";
 
@@ -21,15 +12,12 @@ export const algorithmTypes = {
   Weighted: "Weighted",
 };
 
-export const unweightedAlgrithms = [
-  "Breath First Search",
-  "Depth First Search",
-];
+export const unweightedAlgrithms = ["Breadth First Search", "Depth First Search"];
 
 export var isRunning = false;
 export var isFinished = false;
 export var algorithmType = algorithmTypes.Unweighted;
-export var currentAlgorithm = "Breath First Search";
+export var currentAlgorithm = "Depth First Search";
 var reset = false;
 
 // createGrid();
@@ -39,10 +27,8 @@ export const visualize = () => {
   gridObj.clearVisited();
   gridObj.clearDistance();
 
-  if (currentAlgorithm === "Breath First Search") {
-    const { visitedArray, backTrackArray } = visualizeBreathFirstSearch(
-      gridObj
-    );
+  if (currentAlgorithm === "Breadth First Search") {
+    const { visitedArray, backTrackArray } = visualizeBreadthFirstSearch(gridObj);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Depth First Search") {
