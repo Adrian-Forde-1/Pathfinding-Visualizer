@@ -253,6 +253,8 @@
 }
 
 .navbar__logo {
+  height: 100%;
+  padding: 10px 0px;
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -260,6 +262,10 @@
   left: 20px;
   color: #fff;
   font-size: 20px;
+}
+
+.navbar__logo img {
+  height: 100%;
 }
 
 .nav-list {
