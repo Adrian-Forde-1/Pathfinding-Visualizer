@@ -72,7 +72,7 @@ class DepthFirstSearch {
     return {
       visitedArray: this.visitedArray,
       backTrackArray: pathfindingAlgorithmBackTrack(
-        this.endNodeLocation,
+        this.currentNodeLocation,
         this.startNodeLocation,
         this.grid
       ),
@@ -92,16 +92,8 @@ class DepthFirstSearch {
         this.gridObj.allEdgesVisited(edgesOfParent) &&
         compareArray(this.currentNodeLocation, this.startNodeLocation)
       ) {
-        this.endNodeLocation = this.currentNodeLocation;
-        return depthFirstSearchHelper(
-          startNodeLocation,
-          gridObj.getNodeAtPosition(currentNodeLocation)["parentNodeLocation"],
-          targetNodeLocation,
-          grid,
-          visitedArray,
-          gridObj,
-          true
-        );
+        this.stopVisualization = true;
+        return this.visualizationHelper();
       } else if (this.gridObj.allEdgesVisited(edgesOfParent)) {
         this.currentNodeLocation = this.gridObj.getNodeAtPosition(this.currentNodeLocation)[
           "parentNodeLocation"
