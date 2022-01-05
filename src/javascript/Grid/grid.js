@@ -53,12 +53,12 @@ export class Grid {
     return this.grid[position[0]][position[1]];
   };
 
-  isEdgeInGrid(node) {
+  isEdgeInGrid(edge) {
     if (
-      node[0] >= 0 &&
-      node[0] <= this.getRows() - 1 &&
-      node[1] >= 0 &&
-      node[1] <= this.getCols() - 1
+      edge[0] >= 0 &&
+      edge[0] <= this.getRows() - 1 &&
+      edge[1] >= 0 &&
+      edge[1] <= this.getCols() - 1
     )
       return true;
 
@@ -91,6 +91,20 @@ export class Grid {
 
   setWallLocations = (wallLocations) => {
     this.wallLocations = wallLocations;
+  };
+
+  allEdgesVisited = (edges) => {
+    let allVisited = true;
+    let nonWallEdges = edges.filter(
+      (edge) => this.isEdgeInGrid(edge) && !this.getNodeAtPosition(edge)["isWall"]
+    );
+    if (nonWallEdges && nonWallEdges.length > 0) {
+      nonWallEdges.forEach((edge) => {
+        if (!this.getNodeAtPosition(edge)["visited"]) allVisited = false;
+      });
+    }
+
+    return allVisited;
   };
 
   changeNodeType = (nodeType) => {
