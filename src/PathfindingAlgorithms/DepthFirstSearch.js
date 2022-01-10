@@ -32,8 +32,9 @@ class DepthFirstSearch {
 
   visualizationHelper() {
     if (
-      !compareArray(this.targetNodeLocation, this.currentNodeLocation) ||
-      (!this.stopVisualization && !compareArray(this.targetNodeLocation, this.currentNodeLocation))
+      !compareArray(this.targetNodeLocation, this.currentNodeLocation) &&
+      !this.stopVisualization &&
+      !compareArray(this.targetNodeLocation, this.currentNodeLocation)
     ) {
       // Get node using row and column and set visited to true
       this.gridObj.getNodeAtPosition(this.currentNodeLocation)["visited"] = true;
