@@ -11,9 +11,8 @@ if (speedSlider !== null && speedSliderValue !== null) {
   // backTrackNodeAnimTime = parseInt(speedSlider.value);
   speedSliderValue.innerHTML = speedSlider.value;
 
-  speedSlider.addEventListener("change", (e) => {
+  speedSlider.addEventListener("input", (e) => {
     visitedNodeAnimTime = parseInt(e.target.value);
-    // backTrackNodeAnimTime = parseInt(e.target.value);
     speedSliderValue.innerHTML = e.target.value;
   });
 }
