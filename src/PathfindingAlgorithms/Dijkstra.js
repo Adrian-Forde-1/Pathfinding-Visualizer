@@ -1,93 +1,106 @@
 import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
 import { compareArray } from "../javascript/helpers/util.js";
+import PathfindingAlgorithm from "./PathfindingAlgorithm.js";
 
-export const visualizeDijkstra = (gridObj) => {
-  let visitedArray = [];
-  let backTrackArray = [];
-  let sortedNodes = [...gridObj.getNodes()];
-  let grid = [...gridObj.getGrid()];
-  let startNodeLocation = [...gridObj.getStartNodeLocation()];
-  let targetNodeLocation = [...gridObj.getTargetNodeLocation()];
-  let currentNodeLocation = [...startNodeLocation];
-  let currentNode;
+class Dijkstra extends PathfindingAlgorithm {
+  sortedNodes = [];
 
-  if (!startNodeLocation || !targetNodeLocation || startNodeLocation === targetNodeLocation) {
-    return false;
+  constructor(gridObj) {
+    super(gridObj);
+    this.sortedNodes = [...gridObj.getNodes()];
   }
+  visualize = () => {
+    if (
+      !this.startNodeLocation ||
+      !this.targetNodeLocation ||
+      this.startNodeLocation === this.targetNodeLocation
+    ) {
+      return false;
+    }
 
-  if (compareArray(startNodeLocation, targetNodeLocation)) {
-    let backTrackArray = [];
-    return {
-      visitedArray,
-      backTrackArray,
-    };
-  }
+    if (compareArray(this.startNodeLocation, this.targetNodeLocation)) {
+      return {
+        visitedArray: this.visitedArray,
+        backTrackArray: [],
+      };
+    }
 
-  grid[currentNodeLocation[0]][currentNodeLocation[1]]["distance"] = 0;
+    this.grid[this.currentNodeLocation[0]][this.currentNodeLocation[1]]["distance"] = 0;
 
-  while (!compareArray(currentNodeLocation, targetNodeLocation)) {
-    sortedNodes = sortNodesByDistance(sortedNodes);
-    currentNode = sortedNodes.shift();
-    currentNodeLocation = currentNode.getLocation();
-    grid[currentNodeLocation[0]][currentNodeLocation[1]]["visited"] = true;
+    while (!compareArray(this.currentNodeLocation, this.targetNodeLocation)) {
+      this.sortedNodes = this.sortNodesByDistance(this.sortedNodes);
+      let node = this.sortedNodes.shift();
+      this.currentNodeLocation = node.getLocation();
+      this.grid[this.currentNodeLocation[0]][this.currentNodeLocation[1]]["visited"] = true;
 
-    let edges = gridObj.adjacentEdges(currentNodeLocation);
+      let edges = this.gridObj.adjacentEdges(this.currentNodeLocation);
 
-    edges.forEach((edge) => {
-      if (
-        edge[0] >= 0 &&
-        edge[0] <= gridObj.getRows() - 1 &&
-        edge[1] >= 0 &&
-        edge[1] <= gridObj.getCols() - 1
-      ) {
-        if (!grid[edge[0]][edge[1]]["visited"]) {
-          if (grid[edge[0]][edge[1]]["isWall"]) {
-            let nodeIndex = sortedNodes.findIndex((node) =>
-              compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
-            );
-            grid[edge[0]][edge[1]]["visited"] = true;
-            sortedNodes.splice(nodeIndex, 1);
+      edges.forEach((edge) => {
+        if (
+          edge[0] >= 0 &&
+          edge[0] <= this.gridObj.getRows() - 1 &&
+          edge[1] >= 0 &&
+          edge[1] <= this.gridObj.getCols() - 1
+        ) {
+          if (!this.grid[edge[0]][edge[1]]["visited"]) {
+            if (this.grid[edge[0]][edge[1]]["isWall"]) {
+              let nodeIndex = this.sortedNodes.findIndex((node) =>
+                compareArray(node["location"], this.grid[edge[0]][edge[1]]["location"])
+              );
+              this.grid[edge[0]][edge[1]]["visited"] = true;
+              this.sortedNodes.splice(nodeIndex, 1);
 
-            //TODO: The algorithm is glitching because after it visites all the values,
-            //that enclose the start node, it starts visiting the other nodes that have
-            //a distance of 9999999999. I need to stop the algorithm if it has visited all the walls somehow
+              //TODO: The algorithm is glitching because after it visites all the values,
+              //that enclose the start node, it starts visiting the other nodes that have
+              //a distance of 9999999999. I need to stop the algorithm if it has visited all the walls somehow
 
-            //1. Do more than just remove the wall when it has been visited
-            return;
-          } else {
-            visitedArray.push(currentNodeLocation);
-            grid[edge[0]][edge[1]]["distance"] = currentNode["distance"] + 1;
-            grid[edge[0]][edge[1]]["parentNodeLocation"] = currentNodeLocation;
+              //1. Do more than just remove the wall when it has been visited
+              return;
+            } else {
+              this.visitedArray.push(this.currentNodeLocation);
 
-            let nodeIndex = sortedNodes.findIndex((node) =>
-              compareArray(node["location"], grid[edge[0]][edge[1]]["location"])
-            );
+              this.grid[edge[0]][edge[1]]["distance"] =
+                this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] + 1;
 
-            sortedNodes[nodeIndex]["distance"] = currentNode["distance"] + 1;
+              this.grid[edge[0]][edge[1]]["parentNodeLocation"] = this.currentNodeLocation;
+
+              let nodeIndex = this.sortedNodes.findIndex((node) =>
+                compareArray(node["location"], this.grid[edge[0]][edge[1]]["location"])
+              );
+
+              this.sortedNodes[nodeIndex]["distance"] =
+                this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] + 1;
+            }
           }
         }
-      }
-    });
-  }
+      });
+    }
 
-  if (compareArray(currentNodeLocation, targetNodeLocation)) {
-    backTrackArray = pathfindingAlgorithmBackTrack(currentNodeLocation, startNodeLocation, grid);
-  }
+    if (compareArray(this.currentNodeLocation, this.targetNodeLocation)) {
+      this.backTrackArray = pathfindingAlgorithmBackTrack(
+        this.currentNodeLocation,
+        this.startNodeLocation,
+        this.grid
+      );
+    }
 
-  return {
-    visitedArray,
-    backTrackArray,
+    return {
+      visitedArray: this.visitedArray,
+      backTrackArray: this.backTrackArray,
+    };
   };
-};
 
-let sortNodesByDistance = (nodes) => {
-  let sortedNodes = nodes.sort((a, b) => compare(a, b));
-  return sortedNodes;
-};
+  sortNodesByDistance = (nodes) => {
+    let sortedNodes = nodes.sort((a, b) => this.compare(a, b));
+    return sortedNodes;
+  };
 
-const compare = (a, b) => {
-  if (a["distance"] < b["distance"]) return -1;
-  if (a["distance"] > b["distance"]) return 1;
+  compare = (a, b) => {
+    if (a["distance"] < b["distance"]) return -1;
+    if (a["distance"] > b["distance"]) return 1;
 
-  return 0;
-};
+    return 0;
+  };
+}
+
+export default Dijkstra;

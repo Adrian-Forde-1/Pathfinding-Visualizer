@@ -1,10 +1,10 @@
 import { renderGrid, gridObj, clearGrid, clearVisited, clearWalls } from "./grid.js";
 
 import { visualizeBreadthFirstSearch } from "../PathfindingAlgorithms/BreadthFirstSearch.js";
-import { visualizeDijkstra } from "../PathfindingAlgorithms/Dijkstra.js";
 // import { visualizeDepthFirstSearch } from "../PathfindingAlgorithms/DepthFirstSearch.js";
 import { renderPath, visualizeAlgorithm } from "./Visualization/VisualizeAnimations.js";
 import DepthFirstSearch from "../PathfindingAlgorithms/DepthFirstSearch.js";
+import Dijkstra from "../PathfindingAlgorithms/Dijkstra.js";
 
 import "./Listeners/EventListeners.js";
 
@@ -32,18 +32,18 @@ export const visualize = () => {
   gridObj.clearDistance();
 
   const depthFirstSearch = new DepthFirstSearch(gridObj);
+  const dijkstra = new Dijkstra(gridObj);
 
   if (currentAlgorithm === "Breadth First Search") {
     const { visitedArray, backTrackArray } = visualizeBreadthFirstSearch(gridObj);
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Depth First Search") {
-    // var { visitedArray, backTrackArray } = depthFirstSearch.visualize();
     var { visitedArray, backTrackArray } = depthFirstSearch.visualize();
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   } else if (currentAlgorithm === "Dijkstra") {
-    const { visitedArray, backTrackArray } = visualizeDijkstra(gridObj);
+    const { visitedArray, backTrackArray } = dijkstra.visualize();
     if (!isFinished) visualizeAlgorithm(visitedArray, backTrackArray);
     else renderPath(visitedArray, backTrackArray);
   }

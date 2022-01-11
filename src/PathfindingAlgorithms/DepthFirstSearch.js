@@ -1,27 +1,8 @@
 import { pathfindingAlgorithmBackTrack } from "../javascript/helpers/pathfindingHelpers.js";
 import { compareArray } from "../javascript/helpers/util.js";
+import PathfindingAlgorithm from "./PathfindingAlgorithm.js";
 
-class DepthFirstSearch {
-  visitedArray = [];
-  DFSBackTrackArray = [];
-
-  targetNodeLocation = null;
-  startNodeLocation = null;
-  currentNodeLocation = null;
-  endNodeLocation = null;
-  grid = null;
-  gridObj = null;
-
-  stopVisualization = false;
-
-  constructor(gridObj) {
-    this.gridObj = gridObj;
-    this.startNodeLocation = gridObj.getStartNodeLocation();
-    this.currentNodeLocation = gridObj.getStartNodeLocation();
-    this.targetNodeLocation = gridObj.getTargetNodeLocation();
-    this.grid = gridObj.getGrid();
-  }
-
+class DepthFirstSearch extends PathfindingAlgorithm {
   visualize() {
     this.gridObj.clearVisited();
 
