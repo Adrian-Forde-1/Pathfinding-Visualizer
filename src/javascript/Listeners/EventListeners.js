@@ -10,7 +10,7 @@ import {
   setAlgorithmType,
 } from "../index.js";
 
-import { clearVisited, gridObj, clearGrid, clearWalls, toggleWeight } from "../grid.js";
+import { clearVisited, gridObj, clearGrid, clearWalls, toggleWeight, setWeight } from "../grid.js";
 
 if (document.querySelector("#clear-grid-btn")) {
   document.querySelector("#clear-grid-btn").addEventListener("click", () => {
@@ -53,6 +53,18 @@ if (document.querySelector("#add-weight")) {
   document.querySelector("#add-weight").addEventListener("click", () => {
     document.querySelector("#add-weight").parentNode.classList.toggle("active");
     toggleWeight();
+  });
+}
+if (document.querySelector("#add-wall")) {
+  document.querySelector("#add-wall").addEventListener("click", () => {
+    let weightNavItem = document.querySelector("#add-weight").parentNode;
+    let wallNavItem = document.querySelector("#add-wall").parentNode;
+
+    if (weightNavItem.classList.contains("active")) weightNavItem.classList.remove("active");
+
+    wallNavItem.classList.add("active");
+
+    setWeight(false);
   });
 }
 

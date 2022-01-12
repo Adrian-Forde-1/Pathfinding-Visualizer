@@ -43,7 +43,10 @@ export const setDraggingTargetNode = (value) => {
 
 export const createWall = (row, col, cell) => {
   if (!isRunning && grid[row][col]["isStart"] === false && grid[row][col]["isTarget"] === false) {
-    if (!grid[row][col]["isWall"]) {
+    if (grid[row][col]["isWeight"]) {
+      grid[row][col]["isWeight"] = false;
+      cell.classList.remove("isWeight");
+    } else if (!grid[row][col]["isWall"]) {
       let wallLocations = gridObj.getWallLocations();
 
       grid[row][col]["isWall"] = true;
@@ -125,6 +128,20 @@ export const clearWalls = () => {
 
 export const toggleWeight = () => {
   addWeights = !addWeights;
+  let wallNavItem = document.querySelector("#add-wall").parentNode;
+  if (addWeights) {
+    if (wallNavItem) {
+      wallNavItem.classList.remove("active");
+    }
+  } else {
+    if (wallNavItem) {
+      wallNavItem.classList.add("active");
+    }
+  }
+};
+
+export const setWeight = (value) => {
+  addWeights = value;
 };
 
 export const clearVisited = () => {
