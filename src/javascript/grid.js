@@ -16,11 +16,18 @@ export var mouseDown = false;
 export var draggingStartNode = false;
 export var draggingTargetNode = false;
 
+export let addWeights = false;
+
 gridObj.createGrid("Unweighted");
+
+export const getAddWeights = () => {
+  return addWeights;
+};
 
 export const mouseEnter = (row, col, cell) => {
   if (mouseDown) {
-    createWall(row, col, cell);
+    if (addWeights) createWeight(row, col, cell);
+    else createWall(row, col, cell);
   }
 };
 
@@ -66,6 +73,38 @@ export const createWall = (row, col, cell) => {
   }
 };
 
+export const createWeight = (row, col, cell) => {
+  if (!isRunning && grid[row][col]["isStart"] === false && grid[row][col]["isTarget"] === false) {
+    if (!grid[row][col]["isWeight"]) {
+      // let wallLocations = gridObj.getWallLocations();
+
+      grid[row][col]["isWeight"] = true;
+
+      // wallLocations.push(new Array(parseInt(row), parseInt(col)));
+
+      // gridObj.setWallLocations(wallLocations);
+
+      cell.classList.add("isWeight");
+    } else {
+      // let wallLocations = gridObj.getWallLocations();
+
+      grid[row][col]["isWeight"] = false;
+
+      // let wallIndex = wallLocations.findIndex((location) =>
+      //   compareArray(location, new Array(parseInt(row), parseInt(col)))
+      // );
+
+      // if (wallIndex > -1) wallLocations.splice(wallIndex, 1);
+
+      // gridObj.setWallLocations(wallLocations);
+
+      cell.classList.remove("isWeight");
+    }
+
+    if (isFinished) visualize();
+  }
+};
+
 export const clearGrid = () => {
   clearWalls();
   clearVisited();
@@ -82,6 +121,10 @@ export const clearWalls = () => {
   });
   gridObj.clearWalls();
   if (isFinished) visualize();
+};
+
+export const toggleWeight = () => {
+  addWeights = !addWeights;
 };
 
 export const clearVisited = () => {

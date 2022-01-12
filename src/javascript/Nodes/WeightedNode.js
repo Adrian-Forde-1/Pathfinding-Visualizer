@@ -1,5 +1,6 @@
 export class WeightedNode {
   isWall = false;
+  isWeight = false;
   isStart = false;
   isTarget = false;
   visited = false;
@@ -18,6 +19,7 @@ export class WeightedNode {
     this.isStart = isStart;
     this.isTarget = isTarget;
     this.isWall = isWall;
+    this.isWeight = isWeight;
     this.visited = visited;
     this.parentNodeLocation = parentNodeLocation;
     this.distance = distance;

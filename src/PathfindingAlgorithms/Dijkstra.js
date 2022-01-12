@@ -62,8 +62,12 @@ class Dijkstra extends PathfindingAlgorithm {
                 compareArray(node["location"], this.gridObj.getNodeAtPosition(edge)["location"])
               );
 
+              let weight = this.gridObj.getNodeAtPosition(this.currentNodeLocation)["isWeight"]
+                ? 10
+                : 0;
+
               this.sortedNodes[nodeIndex]["distance"] =
-                this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] + 1;
+                this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] + 1 + weight;
             }
           }
         }

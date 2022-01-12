@@ -2,6 +2,8 @@ import {
   draggingStartNode,
   draggingTargetNode,
   createWall,
+  createWeight,
+  getAddWeights,
   mouseEnter,
   grid,
   setMouseDown,
@@ -25,7 +27,10 @@ export const addEventListenersToGridCell = (cell, i, x) => {
   cell.addEventListener("mouseup", () => {
     if (grid[i][x]["isStart"]) setDraggingStartNode(true);
     else if (grid[i][x]["isTarget"]) setDraggingTargetNode(true);
-    else createWall(i, x, cell);
+    else {
+      if (getAddWeights()) createWeight(i, x, cell);
+      else createWall(i, x, cell);
+    }
   });
 
   cell.addEventListener("mouseup", () => {

@@ -41,6 +41,13 @@
     align-items: center;
     position: relative;
 
+    &.active {
+      background: #0dfcb5;
+      button {
+        color: $main-dark !important;
+      }
+    }
+
     button {
       width: 100%;
       height: 100%;
