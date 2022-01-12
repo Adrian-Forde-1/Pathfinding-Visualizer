@@ -25,29 +25,25 @@ class Dijkstra extends PathfindingAlgorithm {
       };
     }
 
-    this.grid[this.currentNodeLocation[0]][this.currentNodeLocation[1]]["distance"] = 0;
+    this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] = 0;
 
     while (!compareArray(this.currentNodeLocation, this.targetNodeLocation)) {
       this.sortedNodes = this.sortNodesByDistance(this.sortedNodes);
       let node = this.sortedNodes.shift();
       this.currentNodeLocation = node.getLocation();
-      this.grid[this.currentNodeLocation[0]][this.currentNodeLocation[1]]["visited"] = true;
+      this.gridObj.getNodeAtPosition(this.currentNodeLocation)["visited"] = true;
+      this.visitedArray.push(this.currentNodeLocation);
 
       let edges = this.gridObj.adjacentEdges(this.currentNodeLocation);
 
       edges.forEach((edge) => {
-        if (
-          edge[0] >= 0 &&
-          edge[0] <= this.gridObj.getRows() - 1 &&
-          edge[1] >= 0 &&
-          edge[1] <= this.gridObj.getCols() - 1
-        ) {
-          if (!this.grid[edge[0]][edge[1]]["visited"]) {
-            if (this.grid[edge[0]][edge[1]]["isWall"]) {
+        if (this.gridObj.isEdgeInGrid(edge)) {
+          if (!this.gridObj.getNodeAtPosition(edge)["visited"]) {
+            if (this.gridObj.getNodeAtPosition(edge)["isWall"]) {
               let nodeIndex = this.sortedNodes.findIndex((node) =>
-                compareArray(node["location"], this.grid[edge[0]][edge[1]]["location"])
+                compareArray(node["location"], this.gridObj.getNodeAtPosition(edge)["location"])
               );
-              this.grid[edge[0]][edge[1]]["visited"] = true;
+              this.gridObj.getNodeAtPosition(edge)["visited"] = true;
               this.sortedNodes.splice(nodeIndex, 1);
 
               //TODO: The algorithm is glitching because after it visites all the values,
@@ -57,15 +53,13 @@ class Dijkstra extends PathfindingAlgorithm {
               //1. Do more than just remove the wall when it has been visited
               return;
             } else {
-              this.visitedArray.push(this.currentNodeLocation);
-
-              this.grid[edge[0]][edge[1]]["distance"] =
+              this.gridObj.getNodeAtPosition(edge)["distance"] =
                 this.gridObj.getNodeAtPosition(this.currentNodeLocation)["distance"] + 1;
 
-              this.grid[edge[0]][edge[1]]["parentNodeLocation"] = this.currentNodeLocation;
+              this.gridObj.getNodeAtPosition(edge)["parentNodeLocation"] = this.currentNodeLocation;
 
               let nodeIndex = this.sortedNodes.findIndex((node) =>
-                compareArray(node["location"], this.grid[edge[0]][edge[1]]["location"])
+                compareArray(node["location"], this.gridObj.getNodeAtPosition(edge)["location"])
               );
 
               this.sortedNodes[nodeIndex]["distance"] =

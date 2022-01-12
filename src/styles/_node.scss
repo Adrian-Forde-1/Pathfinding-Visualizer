@@ -51,9 +51,9 @@
   }
 
   &.back-track {
-    // animation: backTrackAnimation 500ms ease-out forwards;
-    background: #fff500;
-    border-color: #fff500;
+    animation: backTrackAnimation 500ms ease-out forwards;
+    // background: #fff500;
+    // border-color: #fff500;
   }
 
   &.visited {

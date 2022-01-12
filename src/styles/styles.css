@@ -45,8 +45,8 @@
 }
 
 .node.back-track {
-  background: #fff500;
-  border-color: #fff500;
+  -webkit-animation: backTrackAnimation 500ms ease-out forwards;
+          animation: backTrackAnimation 500ms ease-out forwards;
 }
 
 .node.visited {
